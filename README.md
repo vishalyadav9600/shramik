@@ -4,12 +4,10 @@
 
 ## Table of Content
 
-- [Demo](#demo)
 - [Features](#features)
 - [Built Using](#built-using)
 - [Design Inspiration](#design_inspiration)
 - [Backend](#backend)
-- [Feedback](#feedback)
 - [Author](#author)
 
 
