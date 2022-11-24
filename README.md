@@ -1,6 +1,6 @@
-# MERN Food Ordering System
+# MERN Helper Finding Website
 
-[MERN Food Ordering System](https://theophillyfood.vercel.app/) is a Web app built on the MERN (MongoDB, Express, React, Node) stack of web development. It uses Redux for the state management and Material UI as component library. It is a food ordering website, where registered users can order for food from a particular restaurant.
+[MERN Helper Finding Website] is a Web app built on the MERN (MongoDB, Express, React, Node) stack of web development. It uses Redux for the state management and Material UI as component library. It is a food ordering website, where registered users can executive assigned for a particular location.
 
 ## Table of Content
 
@@ -12,9 +12,6 @@
 - [Feedback](#feedback)
 - [Author](#author)
 
-## <a name="demo"></a> Demo
-
-![Game Demo](public/React_Food_Ordering.jpg)
 
 ## <a name="features"></a> Features
 
@@ -24,7 +21,7 @@
 
 - Beautiful and Modern design using Material UI
 
-- Uses Token based system, so only registered users can order for meals.
+- Uses Token based system, so only registered users can assign executive for particular work.
 
 - State management with Redux, Redux thunk and Redux persist.
 
@@ -75,10 +72,6 @@ During the course of this project I used different free UI design from Dribbble 
 
 The `backend` contains a completed Node js and Express application. Link to the backend repo and setup will appear here shortly
 
-## <a name="feedback"></a> Feedback
-
-Any questions or suggestions? Notice any bugs or glitches? Feel free to send me an [email](mailto:theophilly20@gmail.com).
-
 ## <a name="author"></a> Author
 
-Adeyemi Kolade (2021).
+Vishal Yadav (2022).
