@@ -1,13 +1,12 @@
 # MERN Helper Finding Website
 
-[MERN Helper Finding Website] is a Web app built on the MERN (MongoDB, Express, React, Node) stack of web development. It uses Redux for the state management and Material UI as component library. It is a food ordering website, where registered users can executive assigned for a particular location.
+[MERN Helper Finding Website] is a Web app built on the MERN (MongoDB, Express, React, Node) stack of web development. It uses Redux for the state management and Material UI as component library. It is a helper finding website, where registered users can executive assigned for a particular location.
 
 ## Table of Content
 
 - [Features](#features)
 - [Built Using](#built-using)
 - [Design Inspiration](#design_inspiration)
-- [Backend](#backend)
 - [Author](#author)
 
 
@@ -45,8 +44,6 @@
 - CSS
 - JavaScript
 - React
-- Material UI
-- Node js
 - Express
 - MongoDB
 
@@ -62,13 +59,6 @@ During the course of this project I used different free UI design from Dribbble 
 
 - The User profile page is inspired by this design by [Matt Wierzbicki](https://dribbble.com/shots/5959729-E-commerce-My-Account-Page)
 
-- The Signin and Signup page is inspired by this design by [Dawid Pietrasiak](https://dribbble.com/shots/13947179-Appreciation-Platform-Sign-Up)
-
-- The User payment History page is inspired by this design by [BoxedCMS](https://dribbble.com/shots/7284483-BoxedCMS-Payment-History)
-
-## <a name="backend"></a> Backend
-
-The `backend` contains a completed Node js and Express application. Link to the backend repo and setup will appear here shortly
 
 ## <a name="author"></a> Author
 
