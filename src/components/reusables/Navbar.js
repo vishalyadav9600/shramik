@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   AppBar,
   Toolbar,
@@ -9,86 +9,86 @@ import {
   Link,
   Box,
   makeStyles,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import MenuIcon from '@material-ui/icons/Menu';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import MenuIcon from "@material-ui/icons/Menu";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
-import Notification from '../layout/MainLayout/Header/NotificationSection.js';
-import Profile from '../layout/MainLayout/Header/ProfileSection.js';
-import Sidedrawer from './Sidedrawer.js';
-import CartSection from '../layout/MainLayout/Header/CartSection.js';
+import Notification from "../layout/MainLayout/Header/NotificationSection.js";
+import Profile from "../layout/MainLayout/Header/ProfileSection.js";
+import Sidedrawer from "./Sidedrawer.js";
+import CartSection from "../layout/MainLayout/Header/CartSection.js";
 
 const headersData = (path) => [
   {
-    label: 'Home',
-    href: '/',
+    label: "Home",
+    href: "/",
   },
   {
-    label: 'Meals',
-    href: '/allmeals',
+    label: "Categories",
+    href: "/allmeals",
   },
 ];
 
 const useStyles = makeStyles({
   header: (props) => ({
-    backgroundColor: 'transparent',
-    position: props.pathname === '/' ? 'absolute' : 'static',
-    display: props.pathname === '/login' ? 'none' : 'block',
+    backgroundColor: "transparent",
+    position: props.pathname === "/" ? "absolute" : "static",
+    display: props.pathname === "/login" ? "none" : "block",
     top: 0,
     left: 0,
-    paddingTop: '5px',
-    paddingBottom: '5px',
-    paddingRight: '79px',
-    paddingLeft: '98px',
-    '@media (max-width: 900px)': {
+    paddingTop: "5px",
+    paddingBottom: "5px",
+    paddingRight: "79px",
+    paddingLeft: "98px",
+    "@media (max-width: 900px)": {
       paddingLeft: 0,
     },
   }),
   logo: {
-    fontFamily: 'Mulish, sans-serif',
+    fontFamily: "Mulish, sans-serif",
     fontWeight: 600,
-    color: 'black',
-    textAlign: 'left',
-    fontSize: '1.4rem',
+    color: "black",
+    textAlign: "left",
+    fontSize: "1.4rem",
   },
   menuButton: {
-    fontWeight: 'bold',
-    size: '18px',
-    marginLeft: '20px',
-    textTransform: 'capitalize',
+    fontWeight: "bold",
+    size: "18px",
+    marginLeft: "20px",
+    textTransform: "capitalize",
   },
   toolbar: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
   },
   drawerContainer: {
-    padding: '5px 0px',
-    width: '280px',
+    padding: "5px 0px",
+    width: "280px",
   },
   logButtons: {
-    display: 'flex',
+    display: "flex",
   },
   signinButton: {
-    borderRadius: '20px',
-    textTransform: 'capitalize',
-    fontWeight: 'bold',
+    borderRadius: "20px",
+    textTransform: "capitalize",
+    fontWeight: "bold",
   },
   loginButton: {
-    fontWeight: 'bold',
-    marginLeft: '20px',
-    borderRadius: '20px',
-    backgroundColor: 'white',
-    textTransform: 'capitalize',
+    fontWeight: "bold",
+    marginLeft: "20px",
+    borderRadius: "20px",
+    backgroundColor: "white",
+    textTransform: "capitalize",
   },
   spacerLogo: {
-    visibility: 'hidden',
-    width: 'calc(100vw - 206px)',
-    border: '1px solid red',
-    marginRight: '-25px',
+    visibility: "hidden",
+    width: "calc(100vw - 206px)",
+    border: "1px solid red",
+    marginRight: "-25px",
   },
   personIcon: {
-    marginRight: '6px',
+    marginRight: "6px",
   },
 });
 
@@ -96,14 +96,8 @@ export default function Navbar() {
   const auth = useSelector((state) => state.authReducer);
   const location = useLocation();
 
-  const {
-    header,
-    logo,
-    menuButton,
-    toolbar,
-    drawerContainer,
-    logButtons,
-  } = useStyles(location);
+  const { header, logo, menuButton, toolbar, drawerContainer, logButtons } =
+    useStyles(location);
 
   const [state, setState] = useState({
     mobileView: true,
@@ -121,10 +115,10 @@ export default function Navbar() {
 
     setResponsiveness();
 
-    window.addEventListener('resize', () => setResponsiveness());
+    window.addEventListener("resize", () => setResponsiveness());
 
     return () => {
-      window.removeEventListener('resize', () => setResponsiveness());
+      window.removeEventListener("resize", () => setResponsiveness());
     };
   }, []);
 
@@ -153,20 +147,20 @@ export default function Navbar() {
     return (
       <Toolbar
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
+          display: "flex",
+          justifyContent: "space-between",
 
-          width: '100vw',
+          width: "100vw",
           marginRight: 0,
         }}
       >
         <Box display="flex" alignItems="center">
           <IconButton
             {...{
-              edge: 'start',
-              color: 'inherit',
-              'aria-label': 'menu',
-              'aria-haspopup': 'true',
+              edge: "start",
+              color: "inherit",
+              "aria-label": "menu",
+              "aria-haspopup": "true",
               onClick: handleDrawerOpen,
             }}
           >
@@ -174,7 +168,7 @@ export default function Navbar() {
           </IconButton>
           <Drawer
             {...{
-              anchor: 'left',
+              anchor: "left",
               open: drawerOpen,
               onClose: handleDrawerClose,
             }}
@@ -200,13 +194,13 @@ export default function Navbar() {
     <Link
       {...{
         component: RouterLink,
-        to: '/',
-        color: 'inherit',
-        style: { textDecoration: 'none' },
+        to: "/",
+        color: "inherit",
+        style: { textDecoration: "none" },
       }}
       className={logo}
     >
-      Theomeals
+      Shramik
     </Link>
   );
 
@@ -219,12 +213,12 @@ export default function Navbar() {
           key={index}
           {...{
             key: label,
-            color: 'inherit',
+            color: "inherit",
             to: href,
             component: RouterLink,
             className: menuButton,
           }}
-          state={{ from: pathname, show: 'login' }}
+          state={{ from: pathname, show: "login" }}
         >
           {label}
         </Button>

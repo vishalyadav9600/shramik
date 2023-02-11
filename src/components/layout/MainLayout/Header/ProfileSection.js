@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link as RouterLink, NavLink, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React from "react";
+import { Link as RouterLink, NavLink, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 // material-ui
 import {
@@ -15,170 +15,170 @@ import {
   Popper,
   Typography,
   Button,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // third-party
-import { RiProfileLine } from 'react-icons/ri';
-import { BiHomeCircle } from 'react-icons/bi';
+import { RiProfileLine } from "react-icons/ri";
+import { BiHomeCircle } from "react-icons/bi";
 
-import { ImEnter } from 'react-icons/im';
-import { FcLowPriority } from 'react-icons/fc';
+import { ImEnter } from "react-icons/im";
+import { FcLowPriority } from "react-icons/fc";
 
-import { FaShoppingBag } from 'react-icons/fa';
+import { FaShoppingBag } from "react-icons/fa";
 
 // links for the side nav
 const signedinUserLinks = [
   {
-    id: 'L9',
-    path: '/',
+    id: "L9",
+    path: "/",
     icon: <BiHomeCircle />,
-    title: 'Home',
+    title: "Home",
   },
   {
-    id: 'L0',
-    path: '/profile/details',
+    id: "L0",
+    path: "/profile/details",
     icon: <RiProfileLine />,
-    title: 'Dashboard',
+    title: "Dashboard",
   },
 
   {
-    id: 'L2',
-    path: '/allmeals',
+    id: "L2",
+    path: "/allmeals",
     icon: <FaShoppingBag />,
-    title: 'Meals',
+    title: "Categories",
   },
   {
-    id: 'L1',
-    path: '/signout',
-    icon: <AiOutlinePoweroff style={{ color: 'red' }} />,
-    title: 'Sign Out',
+    id: "L1",
+    path: "/signout",
+    icon: <AiOutlinePoweroff style={{ color: "red" }} />,
+    title: "Sign Out",
   },
 ];
 // unregistered links for the side nav
 const unSignedinUserLinks = [
   {
-    id: 'L9',
-    path: '/',
+    id: "L9",
+    path: "/",
     icon: <BiHomeCircle />,
-    title: 'Home',
+    title: "Home",
   },
 
   {
-    id: 'L2',
-    path: '/allmeals',
+    id: "L2",
+    path: "/allmeals",
     icon: <FaShoppingBag />,
-    title: 'Meals',
+    title: "Categories",
   },
   {
-    id: 'L1',
-    path: '/login',
+    id: "L1",
+    path: "/login",
     icon: <ImEnter />,
-    title: 'Sign In',
+    title: "Sign In",
   },
   {
-    id: 'L6',
-    path: '/login',
+    id: "L6",
+    path: "/login",
     icon: <FcLowPriority />,
-    title: 'Sign Up',
+    title: "Sign Up",
   },
 ];
 
 // project imports
-import MainCard from '../../../../ui-component/cards/MainCard.js';
-import Transitions from '../../../../ui-component/extended/Transitions.js';
+import MainCard from "../../../../ui-component/cards/MainCard.js";
+import Transitions from "../../../../ui-component/extended/Transitions.js";
 
 // assets
-import { IconUser } from '@tabler/icons';
-import { AiOutlinePoweroff } from 'react-icons/ai';
+import { IconUser } from "@tabler/icons";
+import { AiOutlinePoweroff } from "react-icons/ai";
 
 // style const
 const useStyles = makeStyles((theme) => ({
   profileChip: {
-    height: '35px',
-    alignItems: 'center',
-    borderRadius: '10px',
-    marginRight: '5px',
-    border: 'none',
-    transition: 'all .2s ease-in-out',
-    background: '#E2ECF6 !important',
-    color: '#1275D1',
+    height: "35px",
+    alignItems: "center",
+    borderRadius: "10px",
+    marginRight: "5px",
+    border: "none",
+    transition: "all .2s ease-in-out",
+    background: "#E2ECF6 !important",
+    color: "#1275D1",
     '&[aria-controls="menu-list-grow"],&:hover': {
-      background: '#1275D1 !important',
+      background: "#1275D1 !important",
       color: theme.palette.secondary.light,
-      '& svg': {
+      "& svg": {
         stroke: theme.palette.secondary.light,
       },
     },
-    '@media (max-width: 400px)': {
-      width: '34px',
-      height: '34px',
-      justifyContent: 'center',
-      alignItems: 'center',
+    "@media (max-width: 400px)": {
+      width: "34px",
+      height: "34px",
+      justifyContent: "center",
+      alignItems: "center",
     },
   },
   profileLabel: {
     lineHeight: 0,
-    padding: '12px',
-    '@media (max-width: 400px)': {
-      display: 'none',
+    padding: "12px",
+    "@media (max-width: 400px)": {
+      display: "none",
     },
   },
   icon: {
-    '@media (max-width: 400px)': {
-      margin: '0px !important',
+    "@media (max-width: 400px)": {
+      margin: "0px !important",
     },
   },
   cardContent: {
-    padding: '20px 0px !important',
-    height: 'max-content',
-    width: '250px',
-    maxWidth: '250px',
-    overflow: 'hidden',
+    padding: "20px 0px !important",
+    height: "max-content",
+    width: "250px",
+    maxWidth: "250px",
+    overflow: "hidden",
   },
   flex: {
-    display: 'flex',
-    marginLeft: '34px',
-    fontSize: '.94rem !important',
+    display: "flex",
+    marginLeft: "34px",
+    fontSize: ".94rem !important",
   },
   name: {
-    marginLeft: '2px',
+    marginLeft: "2px",
     fontWeight: 400,
   },
   button: {
-    borderRadius: '0px',
-    display: 'flex',
-    paddingLeft: '35px',
-    height: '50px',
-    justifyContent: 'flex-start',
-    textTransform: 'capitalize',
-    background: 'transparent',
-    color: 'black',
-    alignItems: 'left',
-    width: '300px',
+    borderRadius: "0px",
+    display: "flex",
+    paddingLeft: "35px",
+    height: "50px",
+    justifyContent: "flex-start",
+    textTransform: "capitalize",
+    background: "transparent",
+    color: "black",
+    alignItems: "left",
+    width: "300px",
 
-    '&:hover': {
-      color: '#1275D1',
-      background: '#E2ECF6',
+    "&:hover": {
+      color: "#1275D1",
+      background: "#E2ECF6",
     },
   },
   selected: {
-    borderRadius: '0px',
-    paddingLeft: '35px',
-    height: '50px',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    textTransform: 'capitalize',
-    alignItems: 'left',
-    width: '300px',
-    color: '#1275D1 !important',
-    background: '#E2ECF6',
-    '&:hover': {
-      color: '#1275D1 !important',
-      background: '#E2ECF6 !important',
+    borderRadius: "0px",
+    paddingLeft: "35px",
+    height: "50px",
+    display: "flex",
+    justifyContent: "flex-start",
+    textTransform: "capitalize",
+    alignItems: "left",
+    width: "300px",
+    color: "#1275D1 !important",
+    background: "#E2ECF6",
+    "&:hover": {
+      color: "#1275D1 !important",
+      background: "#E2ECF6 !important",
     },
   },
   button_text: {
-    marginRight: '30px !important',
+    marginRight: "30px !important",
   },
 }));
 
@@ -205,7 +205,7 @@ const ProfileSection = () => {
 
   const anchorRef = React.useRef(null);
   const handleLogout = async () => {
-    dispatch({ type: 'SIGN_OUT' });
+    dispatch({ type: "SIGN_OUT" });
   };
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -233,18 +233,18 @@ const ProfileSection = () => {
         icon={<IconUser stroke={1.5} size="1.3rem" />}
         label={
           <Typography>
-            {state.authenticated ? `  ${state.user.firstName}` : 'Account'}
+            {state.authenticated ? `  ${state.user.firstName}` : "Account"}
           </Typography>
         }
         variant="outlined"
         ref={anchorRef}
-        aria-controls={open ? 'menu-list-grow' : undefined}
+        aria-controls={open ? "menu-list-grow" : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
         color="primary"
       />
       <Popper
-        style={{ zIndex: 1000000000, marginTop: '5px' }}
+        style={{ zIndex: 1000000000, marginTop: "5px" }}
         placement="bottom-end"
         open={open}
         anchorEl={anchorRef.current}
@@ -254,7 +254,7 @@ const ProfileSection = () => {
         popperOptions={{
           modifiers: [
             {
-              name: 'offset',
+              name: "offset",
               options: {
                 offset: [0, 14],
               },
@@ -277,26 +277,26 @@ const ProfileSection = () => {
                     <Grid container direction="column" spacing={0}>
                       <Grid item className={classes.flex}>
                         <Typography
-                          style={{ fontSize: '.94rem' }}
+                          style={{ fontSize: ".94rem" }}
                           variant="subtitle1"
                         >
                           Welcome,
                         </Typography>
                         <Typography
                           component="span"
-                          style={{ fontSize: '.94rem' }}
+                          style={{ fontSize: ".94rem" }}
                           variant="subtitle1"
                           className={classes.name}
                         >
                           {state.authenticated
                             ? `  ${state.user.firstName}`
-                            : 'User'}
+                            : "User"}
                         </Typography>
                       </Grid>
                     </Grid>
 
                     <Divider
-                      style={{ marginBottom: '10px', marginTop: '10px' }}
+                      style={{ marginBottom: "10px", marginTop: "10px" }}
                     />
 
                     {/* grid for list nav */}
@@ -308,7 +308,7 @@ const ProfileSection = () => {
                             key={index}
                             onClick={() => {
                               handleClose(event);
-                              link.title === 'Sign Out' && handleLogout();
+                              link.title === "Sign Out" && handleLogout();
                             }}
                             className={
                               pathname === link.path ? selected : button
@@ -320,8 +320,8 @@ const ProfileSection = () => {
                             component={NavLink}
                             to={link.path}
                             state={
-                              link.title === 'Sign Up' && {
-                                show: 'signup',
+                              link.title === "Sign Up" && {
+                                show: "signup",
                               }
                             }
                           >

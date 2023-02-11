@@ -1,60 +1,60 @@
-import React from 'react';
-import { Typography, makeStyles } from '@material-ui/core';
-import LocalShippingIcon from '@material-ui/icons/LocalShipping';
-import EcoIcon from '@material-ui/icons/Eco';
-import BusinessIcon from '@material-ui/icons/Business';
+import React from "react";
+import { Typography, makeStyles } from "@material-ui/core";
+import LocalShippingIcon from "@material-ui/icons/TwoWheeler";
+import EcoIcon from "@material-ui/icons/Eco";
+import BusinessIcon from "@material-ui/icons/Business";
 
 const useStyles = makeStyles((theme) => ({
   leaderBoard_left_h1: {
-    lineHeight: '40px',
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '1.8rem',
-    fontWeight: 'bold',
+    lineHeight: "40px",
+    fontFamily: "Inter, sans-serif",
+    fontSize: "1.8rem",
+    fontWeight: "bold",
   },
   icon_box_h1: {
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '1rem',
-    fontWeight: 'bold',
+    fontFamily: "Inter, sans-serif",
+    fontSize: "1rem",
+    fontWeight: "bold",
   },
   why_choose_us: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    minHeight: '60vh',
-    height: 'max-content',
-    overflow: 'hidden',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    minHeight: "60vh",
+    height: "max-content",
+    overflow: "hidden",
     background: "url('bg.jpg')",
-    backgroundRepeat: 'no-repeat',
-    objectFit: 'contain',
-    backgroundPosition: 'calc(100vw - 170px) 160px',
-    backgroundSize: '200px',
+    backgroundRepeat: "no-repeat",
+    objectFit: "contain",
+    backgroundPosition: "calc(100vw - 170px) 160px",
+    backgroundSize: "200px",
   },
   icon_boxes: {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: '30px 30px',
-    flexWrap: 'wrap',
+    display: "flex",
+    justifyContent: "center",
+    padding: "30px 30px",
+    flexWrap: "wrap",
   },
   icon_box: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginLeft: '15px',
-    marginTop: '15px',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginLeft: "15px",
+    marginTop: "15px",
   },
   icon_box_icon: {
-    fontSize: '50px',
-    color: '#212121',
+    fontSize: "50px",
+    color: "#212121",
   },
   icon_box_p: {
-    fontFamily: 'Inter, sans-serif',
-    textAlign: 'center',
-    marginTop: '2px',
+    fontFamily: "Inter, sans-serif",
+    textAlign: "center",
+    marginTop: "2px",
   },
   wcu_service: {
-    fontFamily: 'Inter, sans-serif',
-    padding: '0 20px',
-    fontSize: '.9rem',
+    fontFamily: "Inter, sans-serif",
+    padding: "0 20px",
+    fontSize: ".9rem",
   },
 }));
 
@@ -87,15 +87,15 @@ export default function WhyChooseUs() {
         Why choose us?
       </Typography>
       <Typography className={wcu_service} component="p">
-        over 2 million people are happy with our service
+        Easy booking fair prices
       </Typography>
 
       <div className={icon_boxes}>
         <Iconbox
           Icon={<EcoIcon className={icon_box_icon} />}
-          title="Fresh food"
-          details1="We server the best and fresh"
-          details2="quality food"
+          title="Skilled Worker"
+          details1="We serve the best and experienced"
+          details2="expert workers"
         />
         <Iconbox
           Icon={<BusinessIcon className={icon_box_icon} />}
@@ -105,9 +105,9 @@ export default function WhyChooseUs() {
         />
         <Iconbox
           Icon={<LocalShippingIcon className={icon_box_icon} />}
-          title="Fast delivery"
-          details1="We have delivery van for"
-          details2="fast delivery"
+          title="Fast Arrival"
+          details1="We Choose the"
+          details2="Available helper"
         />
       </div>
     </div>
