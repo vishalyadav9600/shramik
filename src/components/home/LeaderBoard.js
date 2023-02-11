@@ -1,90 +1,90 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Typography, makeStyles, Button } from '@material-ui/core';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import LocalMallIcon from '@material-ui/icons/LocalMall';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Typography, makeStyles, Button } from "@material-ui/core";
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import LocalMallIcon from "@material-ui/icons/LocalMall";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 
 const useStyles = makeStyles(() => ({
   header: {
-    backgroundColor: '#400CCC',
-    paddingRight: '79px',
-    paddingLeft: '118px',
-    '@media (max-width: 900px)': {
+    backgroundColor: "#400CCC",
+    paddingRight: "79px",
+    paddingLeft: "118px",
+    "@media (max-width: 900px)": {
       paddingLeft: 0,
     },
   },
   leaderBoard: {
-    display: 'flex',
-    paddingRight: '79px',
-    paddingLeft: '118px',
-    background: "url('home_bg.jpg')",
-    backgroundRepeat: 'no-repeat',
-    objectFit: 'contain',
-    backgroundPosition: '1050px -100px',
-    backgroundSize: '700px',
-    height: '100vh',
+    display: "flex",
+    paddingRight: "79px",
+    paddingLeft: "118px",
+    background: "url('home_bg.png')",
+    backgroundRepeat: "no-repeat",
+    objectFit: "contain",
+    backgroundPosition: "1050px -100px",
+    backgroundSize: "700px",
+    height: "100vh",
 
-    '@media (max-width: 900px)': {
-      paddingLeft: '20px',
-      paddingRight: '0px',
-      backgroundPosition: '500px -260px',
+    "@media (max-width: 900px)": {
+      paddingLeft: "20px",
+      paddingRight: "0px",
+      backgroundPosition: "500px -260px",
     },
-    '@media (max-width: 500px)': {
-      height: 'max-content',
-      paddingLeft: '20px',
-      paddingRight: '0px',
-      backgroundPosition: '200px 0px',
+    "@media (max-width: 500px)": {
+      height: "max-content",
+      paddingLeft: "20px",
+      paddingRight: "0px",
+      backgroundPosition: "200px 0px",
     },
   },
   leaderBoard_left: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
   },
   leaderBoard_left_h1: {
-    lineHeight: '50px',
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '2.625rem',
-    fontWeight: 'bold',
-    '@media (max-width: 500px)': {
-      marginTop: '100px',
+    lineHeight: "50px",
+    fontFamily: "Inter, sans-serif",
+    fontSize: "2.625rem",
+    fontWeight: "bold",
+    "@media (max-width: 500px)": {
+      marginTop: "100px",
     },
   },
   leaderBoard_left_p: {
-    fontFamily: 'Inter, sans-serif',
-    marginTop: '20px',
+    fontFamily: "Inter, sans-serif",
+    marginTop: "20px",
   },
   button: {
-    borderRadius: '20px',
-    width: '150px',
-    marginTop: '30px',
-    textTransform: 'lowercase',
+    borderRadius: "20px",
+    width: "150px",
+    marginTop: "30px",
+    textTransform: "lowercase",
   },
   quicktip: {
-    display: 'flex',
-    alignItems: 'center',
-    width: 'max-content',
-    '@media (max-width: 400px)': {
-      marginTop: '20px',
+    display: "flex",
+    alignItems: "center",
+    width: "max-content",
+    "@media (max-width: 400px)": {
+      marginTop: "20px",
     },
   },
   quicktip_text: {
-    fontSize: '0.9rem',
-    lineHeight: '17px',
-    fontFamily: 'Inter, sans-serif',
-    marginLeft: '7px',
+    fontSize: "0.9rem",
+    lineHeight: "17px",
+    fontFamily: "Inter, sans-serif",
+    marginLeft: "7px",
   },
   quickTip_container: {
-    display: 'flex',
-    gap: '20px',
-    marginTop: '100px',
-    flexWrap: 'wrap',
-    '@media (max-width: 400px)': {
-      gap: '0px',
+    display: "flex",
+    gap: "20px",
+    marginTop: "100px",
+    flexWrap: "wrap",
+    "@media (max-width: 400px)": {
+      gap: "0px",
     },
   },
 }));
@@ -120,11 +120,11 @@ export default function LeaderBoard() {
             variant="h2"
             component="h1"
           >
-            Order Your Favourite <br /> Food Easily
+            Book your
+            <br /> Helper easily.
           </Typography>
           <Typography className={leaderBoard_left_p} component="p">
-            We deliver 100% organic and fresh food. You can <br /> order right
-            now!
+            We help finding helper. You can <br /> book right now!
           </Typography>
           <Button
             disableElevation
@@ -134,24 +134,24 @@ export default function LeaderBoard() {
             autoCapitalize="none"
             endIcon={<ArrowRightAltIcon />}
             component={Link}
-            to={'/allmeals'}
+            to={"/allmeals"}
           >
-            our menu
+            our Category
           </Button>
           <div className={quickTip_container}>
             <QuickTip
               Icon={<LocalMallIcon />}
-              quicktip_details1="select your favourite food"
-              quicktip_details2="and order!"
+              quicktip_details1="select your category of work"
+              quicktip_details2="and book!"
             />
             <QuickTip
               Icon={<LocationOnIcon />}
-              quicktip_details1="select your receiving place"
+              quicktip_details1="select your service"
               quicktip_details2="place"
             />
             <QuickTip
               Icon={<LocalShippingIcon />}
-              quicktip_details1="Get your food within"
+              quicktip_details1="Get your executive assigned within"
               quicktip_details2="01-02 hours"
             />
           </div>

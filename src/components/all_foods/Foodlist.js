@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   makeStyles,
   Typography,
@@ -10,292 +10,292 @@ import {
   useMediaQuery,
   useTheme,
   Button,
-} from '@material-ui/core';
-import { Link, animateScroll as scroll } from 'react-scroll';
-import { Link as NavLink } from 'react-router-dom';
-import SearchIcon from '@material-ui/icons/Search';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@material-ui/core";
+import { Link, animateScroll as scroll } from "react-scroll";
+import { Link as NavLink } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
+import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import { useDispatch, useSelector } from "react-redux";
 
-import SingleFoodItem from './SingleFoodItem';
-import menudata2 from '../../utils/menudata2';
-import CartItem from './CartItem';
-import Snackbar from '../reusables/Snackbar';
-import { getAllMeals } from '../../store/actions/productActions';
+import SingleFoodItem from "./SingleFoodItem";
+import menudata2 from "../../utils/menudata2";
+import CartItem from "./CartItem";
+import Snackbar from "../reusables/Snackbar";
+import { getAllMeals } from "../../store/actions/productActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    minHeight: '200vh',
+    display: "flex",
+    minHeight: "200vh",
 
-    'fontFamily': 'inter, sans-serif',
-    '@media (max-width: 900px)': {
-      flexDirection: 'column',
-      '& $menu_section': {
+    fontFamily: "inter, sans-serif",
+    "@media (max-width: 900px)": {
+      flexDirection: "column",
+      "& $menu_section": {
         flex: 1,
-        marginTop: '10px',
-        width: '100%',
-        alignItems: 'center',
-        height: 'auto',
-        padding: '0px',
+        marginTop: "10px",
+        width: "100%",
+        alignItems: "center",
+        height: "auto",
+        padding: "0px",
 
-        '& h1': {
+        "& h1": {
           // color: theme.palette.lightdark3,
-          display: 'none',
+          display: "none",
         },
-        '& ul': {
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent: 'flex-start',
-          marginBottom: '0px',
+        "& ul": {
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
+          marginBottom: "0px",
 
-          '& li': {
-            marginTop: '0px',
-            marginLeft: '25px',
-            paddingTop: '10px',
-            fontFamily: 'Mulish',
-            color: 'inherit',
-            fontSize: '1rem',
-            cursor: 'pointer',
+          "& li": {
+            marginTop: "0px",
+            marginLeft: "25px",
+            paddingTop: "10px",
+            fontFamily: "Mulish",
+            color: "inherit",
+            fontSize: "1rem",
+            cursor: "pointer",
           },
         },
       },
-      '& $cart': {
+      "& $cart": {
         flex: 1,
-        width: '100%',
+        width: "100%",
       },
     },
   },
   menu_section: {
-    padding: '20px',
-    position: 'sticky',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
+    padding: "20px",
+    position: "sticky",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
     top: 0,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     flex: 2.5,
-    width: '300px',
+    width: "300px",
     //maxHeight: '80vh',
     // left: 0,
-    '& h1': {
+    "& h1": {
       // color: theme.palette.lightdark3,
-      fontSize: '1.3rem',
-      fontFamily: 'Mulish',
+      fontSize: "1.3rem",
+      fontFamily: "Mulish",
       fontWeight: 600,
     },
-    '& ul': {
-      listStyleType: 'none',
-      textAlign: 'end',
-      marginBottom: '25px',
-      '& li': {
-        marginTop: '25px',
-        fontFamily: 'Mulish',
-        color: 'inherit',
-        fontSize: '1rem',
-        cursor: 'pointer',
+    "& ul": {
+      listStyleType: "none",
+      textAlign: "end",
+      marginBottom: "25px",
+      "& li": {
+        marginTop: "25px",
+        fontFamily: "Mulish",
+        color: "inherit",
+        fontSize: "1rem",
+        cursor: "pointer",
       },
     },
   },
   food_list: {
-    borderLeft: '1px solid #ebebeb',
-    borderRight: '1px solid #ebebeb',
+    borderLeft: "1px solid #ebebeb",
+    borderRight: "1px solid #ebebeb",
     flex: 5,
   },
   searchSection: {
-    height: '60px',
-    display: 'flex',
-    borderBottom: '1px solid #ebebeb',
-    alignItems: 'center',
-    paddingLeft: '15px',
-    position: 'sticky',
+    height: "60px",
+    display: "flex",
+    borderBottom: "1px solid #ebebeb",
+    alignItems: "center",
+    paddingLeft: "15px",
+    position: "sticky",
     zIndex: 999,
-    background: 'white',
+    background: "white",
     top: 7,
-    '@media (max-width: 900px)': {
-      border: '1px solid #ebebeb',
-      marginTop: '20px',
+    "@media (max-width: 900px)": {
+      border: "1px solid #ebebeb",
+      marginTop: "20px",
     },
 
-    '& input': {
+    "& input": {
       flex: 1,
-      height: '100%',
-      border: 'none',
-      outline: 'none',
+      height: "100%",
+      border: "none",
+      outline: "none",
     },
-    '& input::placeholder': {
-      fontSize: '.9rem',
+    "& input::placeholder": {
+      fontSize: ".9rem",
     },
   },
   searchIcon: {
-    width: '40px',
+    width: "40px",
     color: theme.palette.lightdark2,
   },
   cart: {
-    position: 'sticky',
-    alignSelf: 'flex-start',
+    position: "sticky",
+    alignSelf: "flex-start",
     top: 0,
-    maxHeight: '80vh',
+    maxHeight: "80vh",
     flex: 2.5,
-    padding: '20px',
-    '& h1': {
+    padding: "20px",
+    "& h1": {
       color: theme.palette.lightdark3,
-      fontSize: '1.3rem',
-      fontFamily: 'Mulish',
+      fontSize: "1.3rem",
+      fontFamily: "Mulish",
     },
   },
   submitbutton_section: {
-    margin: '40px 0',
+    margin: "40px 0",
 
-    '& :nth-child(1)': {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+    "& :nth-child(1)": {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
     },
-    '& > :nth-child(2)': {
-      height: '1px',
-      margin: '10px 0',
+    "& > :nth-child(2)": {
+      height: "1px",
+      margin: "10px 0",
     },
-    '& :nth-child(3)': {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+    "& :nth-child(3)": {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
     },
-    '& :nth-child(4)': {
-      width: '100%',
+    "& :nth-child(4)": {
+      width: "100%",
       backgroundColor: theme.palette.green,
-      color: 'white',
-      padding: '15px 0',
-      border: 'none',
-      margin: '20px 0px',
-      cursor: 'pointer',
+      color: "white",
+      padding: "15px 0",
+      border: "none",
+      margin: "20px 0px",
+      cursor: "pointer",
     },
   },
   Sub_total: {
     color: theme.palette.lightdark3,
-    fontSize: '.9rem',
+    fontSize: ".9rem",
   },
   Sub_total_value: {
     color: theme.palette.lightdark3,
-    fontSize: '.9rem',
+    fontSize: ".9rem",
   },
   amount_payable: {
-    fontSize: '.9rem',
-    fontWeight: '600',
+    fontSize: ".9rem",
+    fontWeight: "600",
   },
   amount_payable_value: {
-    fontSize: '.9rem',
-    fontWeight: '600',
+    fontSize: ".9rem",
+    fontWeight: "600",
   },
   mealsGroup: {},
   mealsGroup_heading: {
-    display: 'flex',
-    alignItems: 'baseline',
-    padding: '15px 28px',
+    display: "flex",
+    alignItems: "baseline",
+    padding: "15px 28px",
 
-    '& :nth-child(1)': {
+    "& :nth-child(1)": {
       // color: theme.palette.lightdark3,
-      fontSize: '1.3rem',
-      fontFamily: 'Mulish',
+      fontSize: "1.3rem",
+      fontFamily: "Mulish",
     },
-    '& :nth-child(2)': {
+    "& :nth-child(2)": {
       color: theme.palette.lightdark2,
-      marginLeft: '20px',
-      fontSize: '0.9rem',
-      fontFamily: 'Mulish',
+      marginLeft: "20px",
+      fontSize: "0.9rem",
+      fontFamily: "Mulish",
     },
   },
   empty_cart: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingTop: '30px',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    paddingTop: "30px",
 
-    '& :nth-child(1)': {
-      height: '80px',
-      width: '130px',
+    "& :nth-child(1)": {
+      height: "80px",
+      width: "130px",
     },
-    '& :nth-child(2)': {
+    "& :nth-child(2)": {
       color: theme.palette.lightdark2,
-      marginTop: '20px',
-      fontSize: '0.9rem',
-      fontFamily: 'Mulish',
+      marginTop: "20px",
+      fontSize: "0.9rem",
+      fontFamily: "Mulish",
     },
   },
   modal_content: {
-    width: '600px',
-    '@media (max-width: 600px)': {
-      width: 'auto',
-      padding: '10px',
-      '& $modal_quantity': {
-        display: 'none',
+    width: "600px",
+    "@media (max-width: 600px)": {
+      width: "auto",
+      padding: "10px",
+      "& $modal_quantity": {
+        display: "none",
       },
-      '& $items_button': {
-        marginLeft: '0px',
+      "& $items_button": {
+        marginLeft: "0px",
       },
     },
 
-    '& > div:nth-child(1)': {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: '25px',
+    "& > div:nth-child(1)": {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "25px",
     },
-    '& > div:nth-child(2)': {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: '12px',
+    "& > div:nth-child(2)": {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "12px",
     },
   },
   quantity_buttons: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   price_submit: {
-    display: 'flex',
-    alignItems: 'center',
-    '& button': {
+    display: "flex",
+    alignItems: "center",
+    "& button": {
       background: theme.palette.green,
-      border: 'none',
-      color: 'white',
-      fontFamily: 'Mulish',
-      padding: '10px 20px',
-      marginLeft: '10px',
-      cursor: 'pointer',
+      border: "none",
+      color: "white",
+      fontFamily: "Mulish",
+      padding: "10px 20px",
+      marginLeft: "10px",
+      cursor: "pointer",
     },
   },
   items_button: {
-    display: 'flex',
-    marginLeft: '10px',
+    display: "flex",
+    marginLeft: "10px",
 
-    '& button': {
+    "& button": {
       backgroundColor: theme.palette.green,
-      fontWeight: '600',
-      fontSize: '1rem',
-      border: 'none',
-      height: '30px',
-      width: '30px',
-      color: 'white',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      cursor: 'pointer',
+      fontWeight: "600",
+      fontSize: "1rem",
+      border: "none",
+      height: "30px",
+      width: "30px",
+      color: "white",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      cursor: "pointer",
     },
-    '& h1': {
-      fontWeight: '600',
-      fontSize: '1rem',
-      height: '30px',
-      width: '30px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      cursor: 'pointer',
+    "& h1": {
+      fontWeight: "600",
+      fontSize: "1rem",
+      height: "30px",
+      width: "30px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      cursor: "pointer",
     },
   },
   modal_quantity: {},
   backDrop: {
-    background: 'rgba(0,0,0,0.9)',
+    background: "rgba(0,0,0,0.9)",
   },
 }));
 
@@ -321,11 +321,11 @@ export default function Foodlist() {
     }
   }, [meals]);
   const theme = useTheme();
-  const inputEl = React.useRef('');
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const inputEl = React.useRef("");
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [alertContent, setAlertContent] = React.useState({
-    type: 'error',
-    content: '',
+    type: "error",
+    content: "",
   });
   const [show, setShow] = React.useState(false);
 
@@ -338,7 +338,7 @@ export default function Foodlist() {
   };
 
   const handleCancel = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -353,10 +353,10 @@ export default function Foodlist() {
 
   // control search
   const searchHandler = () => {
-    if (inputEl.current.value !== '') {
+    if (inputEl.current.value !== "") {
       const newAllmeals = meals.filter((currentMeal) => {
         return Object.values(currentMeal)
-          .join(' ')
+          .join(" ")
           .toLowerCase()
           .includes(inputEl.current.value.toLowerCase());
       });
@@ -368,7 +368,7 @@ export default function Foodlist() {
 
   //control cart quantities
   const controlCartQuantities = (type) => {
-    if (type === 'INC') {
+    if (type === "INC") {
       if (activeItem.quantity != 5) {
         setActiveItem({
           ...activeItem,
@@ -389,7 +389,7 @@ export default function Foodlist() {
 
   //handle modal submit
   const handleModalSubmit = () => {
-    dispatch({ type: 'ADD_TO_CART', payload: { product: activeItem } });
+    dispatch({ type: "ADD_TO_CART", payload: { product: activeItem } });
     setOpen(false);
   };
 
@@ -431,7 +431,7 @@ export default function Foodlist() {
         handleClose={handleCancel}
       />
       <div className={menu_section}>
-        <h1>Menu</h1>
+        <h1>Options</h1>
         <ul>
           <Link
             activeClass="active_link"
@@ -441,7 +441,7 @@ export default function Foodlist() {
             smooth={true}
             spy={true}
           >
-            <li>Meals</li>
+            <li>Maid</li>
           </Link>
           <Link
             activeClass="active_link"
@@ -451,7 +451,7 @@ export default function Foodlist() {
             smooth={true}
             spy={true}
           >
-            <li>Swallow</li>
+            <li>Plumber</li>
           </Link>
           <Link
             activeClass="active_link"
@@ -461,10 +461,10 @@ export default function Foodlist() {
             smooth={true}
             spy={true}
           >
-            <li>Bread</li>
+            <li>Electrician</li>
           </Link>
         </ul>
-        <h1>Overview</h1>
+        <h1>Others</h1>
       </div>
       <div className={food_list}>
         <div className={searchSection}>
@@ -472,20 +472,20 @@ export default function Foodlist() {
           <input
             ref={inputEl}
             onChange={searchHandler}
-            placeholder="Search For Dishes"
+            placeholder="Search For Helpers"
           />
         </div>
         {/* meals section */}
         <div id="meals" className={mealsGroup}>
           <div className={mealsGroup_heading}>
-            <Typography variant="h1">Meals</Typography>
+            <Typography variant="h1">Maid</Typography>
             <Typography variant="h1">
-              {allMeals.filter((item) => item.category === 'meals').length}
+              {allMeals.filter((item) => item.category === "meals").length}
               &nbsp;item(s)
             </Typography>
           </div>
           {allMeals
-            .filter((item) => item.category === 'meals')
+            .filter((item) => item.category === "meals")
             .map((item, index) => (
               <SingleFoodItem
                 key={index}
@@ -499,14 +499,14 @@ export default function Foodlist() {
         {/* swallow section */}
         <div id="swallow" className={mealsGroup}>
           <div className={mealsGroup_heading}>
-            <Typography variant="h1">Swallow</Typography>
+            <Typography variant="h1">Plumber</Typography>
             <Typography variant="h1">
-              {allMeals.filter((item) => item.category === 'swallow').length}
+              {allMeals.filter((item) => item.category === "swallow").length}
               &nbsp;item(s)
             </Typography>
           </div>
           {allMeals
-            .filter((item) => item.category === 'swallow')
+            .filter((item) => item.category === "swallow")
             .map((item, index) => (
               <SingleFoodItem
                 key={index}
@@ -520,14 +520,14 @@ export default function Foodlist() {
         {/* bread sections */}
         <div id="bread" className={mealsGroup}>
           <div className={mealsGroup_heading}>
-            <Typography variant="h1">Bread</Typography>
+            <Typography variant="h1">Electrician</Typography>
             <Typography variant="h1">
-              {allMeals.filter((item) => item.category === 'bread').length}
+              {allMeals.filter((item) => item.category === "bread").length}
               &nbsp;item(s)
             </Typography>
           </div>
           {allMeals
-            .filter((item) => item.category === 'bread')
+            .filter((item) => item.category === "bread")
             .map((item, index) => (
               <SingleFoodItem
                 key={index}
@@ -546,9 +546,9 @@ export default function Foodlist() {
           <>
             <div
               style={{
-                maxHeight: '50vh',
-                overflowY: 'auto',
-                scrollbarWidth: 'thin',
+                maxHeight: "50vh",
+                overflowY: "auto",
+                scrollbarWidth: "thin",
               }}
             >
               {products.map((item, index) => (
@@ -574,18 +574,18 @@ export default function Foodlist() {
               </div>
               <Button
                 component={NavLink}
-                to={'/checkout'}
-                style={{ paddingLeft: '90px' }}
+                to={"/checkout"}
+                style={{ paddingLeft: "90px" }}
               >
-                PLACE YOUR ORDER
+                Book your helper
               </Button>
-              <Typography>Note: Min. Order : #2000.00</Typography>
+              <Typography>Note:Be available at the time slot booked</Typography>
             </div>
           </>
         ) : (
           <div className={empty_cart}>
             <img src="./empty_cart.svg" />
-            <Typography>Add items to your basket</Typography>
+            <Typography> </Typography>
           </div>
         )}
       </div>
@@ -602,17 +602,17 @@ export default function Foodlist() {
         }}
       >
         <DialogTitle id="responsive-dialog-title">
-          {'Customize Your Order!'}
+          {"Customize Your Order!"}
         </DialogTitle>
 
         <DialogContent className={modal_content}>
           <div>
             <div
               onClick={handleClose}
-              style={{ position: 'absolute', top: 20, right: 20 }}
+              style={{ position: "absolute", top: 20, right: 20 }}
             >
               <CancelOutlinedIcon
-                style={{ color: 'red', height: '20px', width: '20px' }}
+                style={{ color: "red", height: "20px", width: "20px" }}
               />
             </div>
             <FormControlLabel
@@ -626,9 +626,9 @@ export default function Foodlist() {
             <div className={quantity_buttons}>
               <Typography className={modal_quantity}>Quantity</Typography>
               <div className={items_button}>
-                <button onClick={() => controlCartQuantities('DEC')}>-</button>
+                <button onClick={() => controlCartQuantities("DEC")}>-</button>
                 <Typography variant="h1">{activeItem.quantity}</Typography>
-                <button onClick={() => controlCartQuantities('INC')}>+</button>
+                <button onClick={() => controlCartQuantities("INC")}>+</button>
               </div>
             </div>
             <div className={price_submit}>
