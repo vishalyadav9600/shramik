@@ -25,7 +25,7 @@ const headersData = (path) => [
     href: '/',
   },
   {
-    label: 'Meals',
+    label: 'Category',
     href: '/allmeals',
   },
 ];
@@ -206,7 +206,7 @@ export default function Navbar() {
       }}
       className={logo}
     >
-      Theomeals
+      Shramik
     </Link>
   );
 

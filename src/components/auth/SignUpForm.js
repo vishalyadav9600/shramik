@@ -65,7 +65,7 @@ export default function SignUpForm({ onclick, setClickData, showToast, path }) {
   } = useStyles();
   return (
     <div className={root_left_lower}>
-      <Typography>get your food</Typography>
+      <Typography>Book your helper</Typography>
       <Typography variant="h1" component="h1">
         Create an Account
       </Typography>

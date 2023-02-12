@@ -121,10 +121,10 @@ export default function Resturantdetail() {
   } = useStyles();
   return (
     <div className={root}>
-      <img className={root_img} src="./252.png"></img>
+      <img className={root_img} src="https://gumlet.assettype.com/freepressjournal/2022-09/58fa036c-d6c6-4ff3-956f-748485f313bf/somi_freepik_oct_2.jpg?format=webp&w=800&dpr=1.3"></img>
       <div>
         <Typography className={resturant_name} variant="h2" component="h1">
-          Theomeals restaurant
+          Shramik Categories
         </Typography>
         <Typography className={resturant_description} component="p">
           nigerian &nbsp; ghanian &nbsp; south-african &nbsp; delicacies
@@ -132,18 +132,18 @@ export default function Resturantdetail() {
         <div className={location_container}>
           <LocationOnOutlinedIcon className={location_icon} />
           <Typography className={resturant_location} component="p">
-            Moremi Hall, Tafawa Balewa Way, University Of Lagos
+              Abes Engineering College, Ghaziabad.
           </Typography>
         </div>
         <Typography className={opening_time} component="p">
-          RESTAURANT TIMING - 12:00 AM TO 11:30 PM
+          Booking Timings - 06:00 AM TO 11:00 PM
         </Typography>
 
         <div className={dpa_section}>
           {[
-            { time: '30 MINS', min: 'DELIVERY TIME' },
+            { time: '30 MINS', min: 'ARRIVAL TIME' },
             { time: 'PAYMENT', min: 'ONLINE PAYMENT' },
-            { time: '#,4000', min: 'AVG COST' },
+            { time: '₹1000', min: 'AVG COST'},
           ].map((data, index) => (
             <DPA key={index} {...data} />
           ))}

@@ -238,9 +238,10 @@ export default function Login() {
         )}
       </div>
       <div className={root_right}>
-        <img src="./macaroni-1469.png" />
+        {/* <img src="./macaroni-1469.png" /> */}
+        <img src="https://st.depositphotos.com/1364916/3689/v/600/depositphotos_36891471-stock-illustration-couple-holding-hands-logo-vector.jpg" width={50} height={50} />
         <Typography variant="h1">
-          With a free Account getting food has never been easier
+          Get helpers was never this easy.
         </Typography>
       </div>
     </div>

@@ -431,7 +431,7 @@ export default function Foodlist() {
         handleClose={handleCancel}
       />
       <div className={menu_section}>
-        <h1>Menu</h1>
+        <h1>Options</h1>
         <ul>
           <Link
             activeClass="active_link"
@@ -441,7 +441,7 @@ export default function Foodlist() {
             smooth={true}
             spy={true}
           >
-            <li>Meals</li>
+            <li>Maid</li>
           </Link>
           <Link
             activeClass="active_link"
@@ -451,7 +451,7 @@ export default function Foodlist() {
             smooth={true}
             spy={true}
           >
-            <li>Swallow</li>
+            <li>Plumber</li>
           </Link>
           <Link
             activeClass="active_link"
@@ -461,10 +461,10 @@ export default function Foodlist() {
             smooth={true}
             spy={true}
           >
-            <li>Bread</li>
+            <li>Electrician</li>
           </Link>
         </ul>
-        <h1>Overview</h1>
+        <h1>Others</h1>
       </div>
       <div className={food_list}>
         <div className={searchSection}>
@@ -472,13 +472,13 @@ export default function Foodlist() {
           <input
             ref={inputEl}
             onChange={searchHandler}
-            placeholder="Search For Dishes"
+            placeholder="Search For Helpers"
           />
         </div>
         {/* meals section */}
         <div id="meals" className={mealsGroup}>
           <div className={mealsGroup_heading}>
-            <Typography variant="h1">Meals</Typography>
+            <Typography variant="h1">Maid</Typography>
             <Typography variant="h1">
               {allMeals.filter((item) => item.category === 'meals').length}
               &nbsp;item(s)
@@ -499,7 +499,7 @@ export default function Foodlist() {
         {/* swallow section */}
         <div id="swallow" className={mealsGroup}>
           <div className={mealsGroup_heading}>
-            <Typography variant="h1">Swallow</Typography>
+            <Typography variant="h1">Plumber</Typography>
             <Typography variant="h1">
               {allMeals.filter((item) => item.category === 'swallow').length}
               &nbsp;item(s)
@@ -520,7 +520,7 @@ export default function Foodlist() {
         {/* bread sections */}
         <div id="bread" className={mealsGroup}>
           <div className={mealsGroup_heading}>
-            <Typography variant="h1">Bread</Typography>
+            <Typography variant="h1">Electrician</Typography>
             <Typography variant="h1">
               {allMeals.filter((item) => item.category === 'bread').length}
               &nbsp;item(s)
@@ -577,15 +577,15 @@ export default function Foodlist() {
                 to={'/checkout'}
                 style={{ paddingLeft: '90px' }}
               >
-                PLACE YOUR ORDER
+                Book your helper
               </Button>
-              <Typography>Note: Min. Order : #2000.00</Typography>
+              <Typography>Note:Be available at the time slot booked</Typography>
             </div>
           </>
         ) : (
           <div className={empty_cart}>
             <img src="./empty_cart.svg" />
-            <Typography>Add items to your basket</Typography>
+            <Typography> </Typography>
           </div>
         )}
       </div>

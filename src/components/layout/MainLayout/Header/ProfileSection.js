@@ -67,7 +67,7 @@ const unSignedinUserLinks = [
     id: 'L2',
     path: '/allmeals',
     icon: <FaShoppingBag />,
-    title: 'Meals',
+    title: 'Category',
   },
   {
     id: 'L1',

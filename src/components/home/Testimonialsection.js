@@ -73,7 +73,7 @@ export default function Testimonialsection() {
           Testimonial
         </Typography>
         <Typography className={leaderBoard_left_h1} variant="h2" component="h1">
-          What they saying
+          Customer's Experience
         </Typography>
       </div>
       <div style={{ display: 'flex' }}>

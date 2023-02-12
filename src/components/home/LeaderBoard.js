@@ -4,7 +4,7 @@ import { Typography, makeStyles, Button } from '@material-ui/core';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import LocalShippingIcon from '@material-ui/icons/TwoWheeler';
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -17,9 +17,10 @@ const useStyles = makeStyles(() => ({
   },
   leaderBoard: {
     display: 'flex',
-    paddingRight: '79px',
+    paddingRight: '75px',
     paddingLeft: '118px',
-    background: "url('home_bg.jpg')",
+    // background: "url('home_bg.jpg')",
+    background: "url('hero.png')",
     backgroundRepeat: 'no-repeat',
     objectFit: 'contain',
     backgroundPosition: '1050px -100px',
@@ -120,10 +121,10 @@ export default function LeaderBoard() {
             variant="h2"
             component="h1"
           >
-            Order Your Favourite <br /> Food Easily
+            Book your<br /> Helper easily.
           </Typography>
           <Typography className={leaderBoard_left_p} component="p">
-            We deliver 100% organic and fresh food. You can <br /> order right
+            We help finding helper. You can <br /> book right
             now!
           </Typography>
           <Button
@@ -136,22 +137,22 @@ export default function LeaderBoard() {
             component={Link}
             to={'/allmeals'}
           >
-            our menu
+            our Category
           </Button>
           <div className={quickTip_container}>
             <QuickTip
               Icon={<LocalMallIcon />}
-              quicktip_details1="select your favourite food"
-              quicktip_details2="and order!"
+              quicktip_details1="select your category of work"
+              quicktip_details2="and book!"
             />
             <QuickTip
               Icon={<LocationOnIcon />}
-              quicktip_details1="select your receiving place"
+              quicktip_details1="select your service"
               quicktip_details2="place"
             />
             <QuickTip
               Icon={<LocalShippingIcon />}
-              quicktip_details1="Get your food within"
+              quicktip_details1="Get your executive assigned within"
               quicktip_details2="01-02 hours"
             />
           </div>

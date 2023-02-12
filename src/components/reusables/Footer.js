@@ -76,11 +76,10 @@ export default function Footer() {
     <Paper className={root}>
       <Box className={root_left}>
         <Box>
-          <FcPodiumWithAudience size={35} /> <span>Theomeals</span>
+          <FcPodiumWithAudience size={35} /> <span>Shramik</span>
         </Box>
         <Typography width={{ 'sm': '100%', 'md': '70%' }}>
-          Thank you for trusting us with your meals. We do hope you enjoy our
-          dishes
+          Thank you for trusting us with our helpers. We hope you are satisfied with our helpers
         </Typography>
       </Box>
       <Box className={root_right}>
@@ -98,17 +97,7 @@ export default function Footer() {
             Home
           </Typography>
 
-          <a
-            href="https://myreactprofile.netlify.app/"
-            style={{
-              textDecoration: 'none',
-              color: 'inherit',
-              marginTop: '5px',
-            }}
-            target="_blank"
-          >
-            About
-          </a>
+          
         </Box>
       </Box>
     </Paper>

@@ -67,11 +67,9 @@ export default function Homemenu() {
   return (
     <div className={homemenu}>
       <div className={homemenu_explore}>
-        <Typography className={homemenu_menu} component="h1">
-          Menu
-        </Typography>
+        
         <Typography className={leaderBoard_left_h1} variant="h2" component="h1">
-          Our Best Selling Meals
+          Our best Services
         </Typography>
       </div>
 
@@ -89,7 +87,7 @@ export default function Homemenu() {
         component={Link}
         to={'/allmeals'}
       >
-        see all food
+        see all Services
       </Button>
     </div>
   );

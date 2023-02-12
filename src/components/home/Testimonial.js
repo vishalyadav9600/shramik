@@ -50,7 +50,7 @@ export default function Testimonial({ review, name, location }) {
   } = useStyles();
   return (
     <div className={testimonial}>
-      <img className={testimonial_img} src="./testimonial.png"></img>
+      <img className={testimonial_img} src="./testimonial.jpg"></img>
       <div className={testimonial_right}>
         <Typography className={testimonial_quote} variant="h2" component="h1">
           {review}

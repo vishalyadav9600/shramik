@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     minHeight: '70vh',
     height: 'max-content',
-    background: "url('foodnapkin.jpg')",
+    // background: "url('foodnapkin.jpg')",
+    background: "url('https://thumbs.dreamstime.com/b/people-cleaning-earth-planet-watering-plants-volunteers-taking-care-planet-ecology-environment-nature-protection-158317378.jpg')",
     backgroundRepeat: 'no-repeat',
     objectFit: 'contain',
     backgroundPosition: '-200px',
@@ -84,16 +85,13 @@ export default function AboutSection() {
           About
         </Typography>
         <Typography className={leaderBoard_left_h1} variant="h2" component="h1">
-          We are the best quality <br /> restaurant
+          Get help at your doorstep <br /> 
         </Typography>
         <Typography className={about_descriptions} component="p">
-          Restaurant in Nigeria sourcing our ingredient locally, to celebrate
-          lifes special moments by offering the best food, service and ambience
-          in every home
+        Choose nearest helpers based on their specialization, experience, reviews and rating at fair cost.
         </Typography>
         <Typography className={about_descriptions} component="p">
-          If you want any food please login or sign up on our mobile app or
-          website
+        For bookings please login or sign up on our website
         </Typography>
         <Button
           disableElevation
@@ -105,7 +103,7 @@ export default function AboutSection() {
           component={Link}
           to={'/allmeals'}
         >
-          our menu
+          our category
         </Button>
       </div>
     </div>
