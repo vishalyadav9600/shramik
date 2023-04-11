@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 //local import
 import Textfield from '../partials/FormUI/Textfield';
 import { login } from '../../store/actions/authActions';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root_left_lower: {
@@ -55,6 +56,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignInForm({ onclick, setClickData, showToast, path }) {
+
+  const[emailText,setEmailText]=useState("");
+  const[passwordText,setPasswordText]=useState("");
+
+  console.log(emailText)
+  console.log(passwordText)
+
+  const postUser=()=>{
+    console.log("jssj")
+    axios.post("http://localhost:8080/login/user-login",{
+      userName:emailText,
+      password:passwordText
+    })
+    .then(()=>console.log("Yes"))
+
+  }
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -101,31 +119,36 @@ export default function SignInForm({ onclick, setClickData, showToast, path }) {
               <Grid container>
                 <Grid xs={12} item>
                   <Box marginTop="10px">
-                    <Textfield name="loginEmail" helpertext="Email Address" />
+                    <input type="text" placeholder='email' onChange={(e)=>setEmailText(e.target.value)} />
+                    {/* <Textfield name="loginEmail" helpertext="Email Address" /> */}
                   </Box>
 
                   <Box marginTop="10px">
-                    <Textfield
+                  <input type="password" placeholder='password' onChange={(e)=>setPasswordText(e.target.value)} />
+                    {/* <Textfield
                       type="password"
                       name="loginPassword"
                       helpertext="Password"
-                    />
+                      
+                    /> */}
                   </Box>
 
                   <Box>
-                    <Button
-                      startIcon={
-                        isSubmitting ? (
-                          <CircularProgress color="secondary" size="1rem" />
-                        ) : null
-                      }
+                    <button onClick={postUser}>Sign In</button>
+                    {/* <Button
+                      // startIcon={
+                      //   isSubmitting ? (
+                      //     <CircularProgress color="secondary" size="1rem" />
+                      //   ) : null
+                      // }
+                      onclick={postUser}
                       className={login_button}
                       disableElevation
                       variant="contained"
                       type="submit"
                     >
                       Sign In
-                    </Button>
+                    </Button> */}
                   </Box>
                 </Grid>
               </Grid>
