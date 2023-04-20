@@ -151,6 +151,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const response = await fetch('/api/signup', {
+      method: 'POST',
+      body: data,
+    });
+    const result = await response.json();
+    if (result.success) {
+      // display success message
+      const successMessage = document.createElement('p');
+      successMessage.textContent = 'Sign up successful!';
+      document.body.appendChild(successMessage);
+    } else {
+      // display error message
+      const errorMessage = document.createElement('p');
+      errorMessage.textContent = 'Sign up failed. Please try again.';
+      document.body.appendChild(errorMessage);
+    }
+  }
+  
   let location = useLocation();
   let from = location.state?.from;
   let show = location.state?.show;
@@ -238,9 +259,9 @@ export default function Login() {
         )}
       </div>
       <div className={root_right}>
-        <img src="./macaroni-1469.png" />
+        <img src="./home-bai-img.png" />
         <Typography variant="h1">
-          With a free Account getting food has never been easier
+          With a free Account getting helper has never been easier
         </Typography>
       </div>
     </div>

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { Alert, AlertTitle } from '@mui/material';
+import React, { useState } from "react";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { Alert, AlertTitle } from "@mui/material";
 import {
   Typography,
   makeStyles,
@@ -10,59 +10,71 @@ import {
   Grid,
   Box,
   CircularProgress,
-} from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+} from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root_left_lower: {
     //border: '1px solid red',
-    '& > :nth-child(1)': {
-      fontFamily: 'Mulish',
-      fontSize: '.9rem',
+    "& > :nth-child(1)": {
+      fontFamily: "Mulish",
+      fontSize: ".9rem",
     },
-    '& > :nth-child(2)': {
-      fontFamily: 'Mulish',
-      fontSize: '1.8rem',
-      fontWeight: '700',
+    "& > :nth-child(2)": {
+      fontFamily: "Mulish",
+      fontSize: "1.8rem",
+      fontWeight: "700",
     },
   },
 
   login_button: {
-    width: '100%',
-    marginTop: '20px',
+    width: "100%",
+    marginTop: "20px",
     background: theme.palette.green,
-    color: 'white',
-    '& :hover': {
-      color: 'black',
+    color: "white",
+    "& :hover": {
+      color: "black",
       //  background: 'lightgreen',
     },
   },
 
   recommendation: {
-    fontFamily: 'Mulish',
-    fontSize: '.9rem',
+    fontFamily: "Mulish",
+    fontSize: ".9rem",
   },
   recommendation_link: {
-    fontFamily: 'Mulish',
-    fontWeight: '600',
-    fontSize: '.9rem',
-    cursor: 'pointer',
-    marginLeft: '5px',
+    fontFamily: "Mulish",
+    fontWeight: "600",
+    fontSize: ".9rem",
+    cursor: "pointer",
+    marginLeft: "5px",
   },
 }));
 
-import Textfield from '../partials/FormUI/Textfield';
-import { signup } from '../../store/actions/authActions';
+import Textfield from "../partials/FormUI/Textfield";
+import { signup } from "../../store/actions/authActions";
 
 export default function SignUpForm({ onclick, setClickData, showToast, path }) {
+  const [emailText, setEmailText] = useState("");
+  const [passwordText, setPasswordText] = useState("");
+  const history = useNavigate();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {
-    root_left_lower,
-    login_button,
-    recommendation,
-    recommendation_link,
-  } = useStyles();
+  const { root_left_lower, login_button, recommendation, recommendation_link } =
+    useStyles();
+
+  const postUser = () => {
+    console.log("jssj");
+    axios
+      .post("http://localhost:8080/login/user-signup", {
+        userName: emailText,
+        password: passwordText,
+      })
+      .then((res) => console.log(res.json))
+      .then(() => history("/login"));
+  };
+
   return (
     <div className={root_left_lower}>
       <Typography>get your food</Typography>
@@ -73,72 +85,87 @@ export default function SignUpForm({ onclick, setClickData, showToast, path }) {
       <Box marginTop="20px">
         <Formik
           initialValues={{
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
           }}
           onSubmit={async (values) => {
             await dispatch(signup(values));
 
             if (window.store.getState().authReducer.authenticated === true) {
               await setClickData({
-                type: 'success',
-                content: 'Your account was successfully created',
+                type: "success",
+                content: "You account was successfully created",
               });
               showToast();
-              navigate(path || '/dashboard');
+              navigate(path || "/dashboard");
             } else {
               await setClickData({
-                type: 'error',
+                type: "error",
                 content: window.store.getState().authReducer.error,
               });
               showToast();
             }
           }}
           validationSchema={Yup.object().shape({
-            firstName: Yup.string().required('First Name is Required'),
-            lastName: Yup.string().required('Last Name is Required'),
+            firstName: Yup.string().required("First Name is Required"),
+            lastName: Yup.string().required("Last Name is Required"),
             email: Yup.string()
-              .email('Invalid email format')
-              .required('Required'),
+              .email("Invalid email format")
+              .required("Required"),
             password: Yup.string()
-              .min(6, 'password must be atleast 6 characters')
-              .required('Password is required'),
+              .min(6, "password must be atleast 6 characters")
+              .required("Password is required"),
             confirmPassword: Yup.string()
-              .oneOf([Yup.ref('password'), null], 'password must match')
-              .required('Please confirm password 😱'),
+              .oneOf([Yup.ref("password"), null], "password must match")
+              .required("Please confirm password 😱"),
           })}
         >
           {({ isSubmitting }) => (
             <Form autoComplete="off">
               <Grid container>
                 <Grid xs={12} item>
-                  <Box marginTop="10px">
+                  {/* <Box marginTop="10px">
                     <Textfield name="firstName" helpertext="First Name" />
                   </Box>
                   <Box marginTop="10px">
                     <Textfield name="lastName" helpertext="Last Name" />
-                  </Box>
+                  </Box> */}
                   <Box marginTop="10px">
-                    <Textfield name="email" helpertext="Email Address" />
+                    <input
+                      type="text"
+                      placeholder="email"
+                      onChange={(e) => setEmailText(e.target.value)}
+                    />
+                    {/* <Textfield
+                      name="email"
+                      helpertext="Email Address"
+                      onChange={(e) => setEmailText(e.target.value)}
+                    /> */}
                   </Box>
 
                   <Box marginTop="10px">
-                    <Textfield
+                    <input
+                      type="password"
+                      placeholder="password"
+                      onChange={(e) => setPasswordText(e.target.value)}
+                    />
+                    {/* <Textfield
+                      onChange={(e) => setPasswordText(e.target.value)}
                       type="password"
                       name="password"
                       helpertext="Password"
-                    />
+                    /> */}
                   </Box>
-                  <Box marginTop="10px">
+                  {/* <Box marginTop="10px">
                     <Textfield
                       type="password"
                       name="confirmPassword"
                       helpertext="Confirm Password"
                     />
-                  </Box>
+                  </Box> */}
                   <Box>
                     <Button
                       startIcon={
@@ -150,6 +177,7 @@ export default function SignUpForm({ onclick, setClickData, showToast, path }) {
                       disableElevation
                       variant="contained"
                       type="submit"
+                      onClick={postUser}
                     >
                       Sign Up
                     </Button>
@@ -170,7 +198,7 @@ export default function SignUpForm({ onclick, setClickData, showToast, path }) {
           Already have an account?
         </Typography>
         <Typography
-          onClick={() => onclick('login')}
+          onClick={() => onclick("login")}
           color="secondary"
           className={recommendation_link}
         >

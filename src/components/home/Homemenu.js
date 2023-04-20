@@ -86,7 +86,7 @@ export default function Homemenu() {
         component={Link}
         to={"/allmeals"}
       >
-        see all food
+        see all Services
       </Button>
     </div>
   );

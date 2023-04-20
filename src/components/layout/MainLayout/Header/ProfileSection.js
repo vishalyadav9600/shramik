@@ -233,7 +233,23 @@ const ProfileSection = () => {
         icon={<IconUser stroke={1.5} size="1.3rem" />}
         label={
           <Typography>
-            {state.authenticated ? `  ${state.user.firstName}` : "Account"}
+            {state.authenticated ? `  ${state.user.firstName}` : "User Account"}
+          </Typography>
+        }
+        variant="outlined"
+        ref={anchorRef}
+        aria-controls={open ? "menu-list-grow" : undefined}
+        aria-haspopup="true"
+        onClick={handleToggle}
+        color="primary"
+      />
+      <Chip
+        classes={{ label: classes.profileLabel, icon: classes.icon }}
+        className={classes.profileChip}
+        icon={<IconUser stroke={1.5} size="1.3rem" />}
+        label={
+          <Typography>
+            {state.authenticated ? `  ${state.user.firstName}` : "Helper Registration"}
           </Typography>
         }
         variant="outlined"

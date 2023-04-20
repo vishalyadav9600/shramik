@@ -11,6 +11,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
+import  { Redirect } from 'react-router-dom'
 
 //local import
 import Textfield from '../partials/FormUI/Textfield';
@@ -60,6 +61,9 @@ export default function SignInForm({ onclick, setClickData, showToast, path }) {
   const[emailText,setEmailText]=useState("");
   const[passwordText,setPasswordText]=useState("");
 
+  const history = useNavigate();
+  
+
   console.log(emailText)
   console.log(passwordText)
 
@@ -69,7 +73,10 @@ export default function SignInForm({ onclick, setClickData, showToast, path }) {
       userName:emailText,
       password:passwordText
     })
-    .then(()=>console.log("Yes"))
+    .then((res) => console.log(res.json))
+    .then(() => 
+      history("/")
+    )
 
   }
 
