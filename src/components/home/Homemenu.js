@@ -3,6 +3,7 @@ import { Typography, makeStyles, Button } from "@material-ui/core";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import { Link } from "react-router-dom";
 import Homemenuitem from "./Homemenuitem";
+import Advertisement from "./Advertisement";
 import menudata from "../../utils/menudata";
 
 const useStyles = makeStyles((theme) => ({
@@ -66,6 +67,7 @@ export default function Homemenu() {
   } = useStyles();
   return (
     <div className={homemenu}>
+      <Advertisement />
       <div className={homemenu_explore}>
         <Typography className={leaderBoard_left_h1} variant="h2" component="h1">
           Our best Services

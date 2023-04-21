@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import {
   makeStyles,
   Typography,
@@ -9,19 +9,12 @@ import {
   DialogTitle,
   useMediaQuery,
   useTheme,
-  Button,
 } from "@material-ui/core";
-import { Link, animateScroll as scroll } from "react-scroll";
-import { Link as NavLink } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import { useDispatch, useSelector } from "react-redux";
-
-import SingleFoodItem from "./SingleFoodItem";
-import menudata2 from "../../utils/menudata2";
-import CartItem from "./CartItem";
 import Snackbar from "../reusables/Snackbar";
-import { getAllMeals } from "../../store/actions/productActions";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -302,24 +295,16 @@ const useStyles = makeStyles((theme) => ({
 export default function Foodlist() {
   // hooks
   const dispatch = useDispatch();
-  const { products, totalQuantities, totalPrice } = useSelector(
-    (state) => state.cartReducer
-  );
-  const meals = useSelector((state) => state.productReducer.products);
-  const [allMeals, setAllMeals] = React.useState([]);
+
   const [open, setOpen] = React.useState(false);
+  const [allHelpers, setAllHelpers] = React.useState([]);
+  const [helpersData, setHelpersData] = useState({});
+  const [distanceData, setDistanceData] = useState({});
   const [activeItem, setActiveItem] = React.useState({
     price: 0,
     totalPrice: 0,
     quantity: 1,
   });
-  React.useEffect(() => {
-    if (meals.length < 1) {
-      (async function () {
-        await dispatch(getAllMeals());
-      })();
-    }
-  }, [meals]);
   const theme = useTheme();
   const inputEl = React.useRef("");
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -328,10 +313,63 @@ export default function Foodlist() {
     content: "",
   });
   const [show, setShow] = React.useState(false);
+  const [filteredData, setFilteredData] = useState(helpersData);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [cardId, setCardId] = useState(-1);
+  const [showDistanceModal, setShowDistanceModal] = useState(false);
 
-  React.useEffect(() => {
-    setAllMeals(meals);
+  const getHelpers = async () => {
+    const resp = await axios
+      .get("http://localhost:8080/search/getAllHelpers")
+      .then((res) => {
+        localStorage.setItem("allHelpers", JSON.stringify(res.data)); // Store the data in local storage
+        setAllHelpers(res.data);
+      });
+  };
+
+  const fetchHelpers = async () => {
+    const storedData = localStorage.getItem("helpersData"); // Check if the data is stored in local storage
+    if (storedData) {
+      setHelpersData(JSON.parse(storedData)); // Set the data from local storage
+    } else {
+      const categories = {};
+      allHelpers.forEach((item) => {
+        const category = item.subCategory.toLowerCase();
+        if (!categories[category]) {
+          categories[category] = [];
+        }
+        categories[category].push(item);
+      });
+      setHelpersData(categories);
+      localStorage.setItem("helpersData", JSON.stringify(categories)); // Store the data in local storage
+    }
+  };
+
+  useEffect(async () => {
+    await getHelpers();
+    await fetchHelpers();
   }, []);
+
+  console.log(helpersData, "categories");
+
+  const fetchNearestHelpers = async () => {
+    const resp = await axios
+      .post("https://shramik-location-apis.onrender.com/fetch_nearest_worker")
+      .then((res) => console.log(res));
+  };
+
+  const distanceTime = async (cId) => {
+    const resp = await axios
+      .post(
+        `https://shramik-location-apis.onrender.com/calculate_distance/${cId}`
+      )
+      .then((res) => {
+        console.log(res.data);
+        setDistanceData(res.data);
+      });
+  };
+
+  console.log(distanceData, "distanceData");
 
   const handleClick = () => {
     setShow(true);
@@ -352,18 +390,21 @@ export default function Foodlist() {
   };
 
   // control search
-  const searchHandler = () => {
-    if (inputEl.current.value !== "") {
-      const newAllmeals = meals.filter((currentMeal) => {
-        return Object.values(currentMeal)
-          .join(" ")
-          .toLowerCase()
-          .includes(inputEl.current.value.toLowerCase());
+  const searchHandler = (event) => {
+    const query = event.target.value.toLowerCase();
+    const filteredCategories = {};
+
+    Object.keys(helpersData).forEach((category) => {
+      const filteredHelpers = helpersData[category].filter((helper) => {
+        return helper.subCategory.toLowerCase().includes(query);
       });
-      setAllMeals(newAllmeals);
-    } else {
-      setAllMeals(meals);
-    }
+
+      if (filteredHelpers.length > 0) {
+        filteredCategories[category] = filteredHelpers;
+      }
+    });
+
+    setFilteredData(filteredCategories);
   };
 
   //control cart quantities
@@ -423,6 +464,7 @@ export default function Foodlist() {
     backDrop,
     submitbutton_section,
   } = useStyles();
+
   return (
     <div className={root}>
       <Snackbar
@@ -430,42 +472,6 @@ export default function Foodlist() {
         open={show}
         handleClose={handleCancel}
       />
-      <div className={menu_section}>
-        <h1>Options</h1>
-        <ul>
-          <Link
-            activeClass="active_link"
-            offset={-62}
-            to="meals"
-            duration={2000}
-            smooth={true}
-            spy={true}
-          >
-            <li>Maid</li>
-          </Link>
-          <Link
-            activeClass="active_link"
-            offset={-62}
-            to="swallow"
-            duration={2000}
-            smooth={true}
-            spy={true}
-          >
-            <li>Plumber</li>
-          </Link>
-          <Link
-            activeClass="active_link"
-            offset={-62}
-            to="bread"
-            duration={2000}
-            smooth={true}
-            spy={true}
-          >
-            <li>Electrician</li>
-          </Link>
-        </ul>
-        <h1>Others</h1>
-      </div>
       <div className={food_list}>
         <div className={searchSection}>
           <SearchIcon className={searchIcon} />
@@ -475,120 +481,100 @@ export default function Foodlist() {
             placeholder="Search For Helpers"
           />
         </div>
+        <button
+          onClick={() => {
+            fetchNearestHelpers();
+          }}
+        >
+          Fetch Nearest Helpers
+        </button>
         {/* meals section */}
-        <div id="meals" className={mealsGroup}>
-          <div className={mealsGroup_heading}>
-            <Typography variant="h1">Maid</Typography>
-            <Typography variant="h1">
-              {allMeals.filter((item) => item.category === "meals").length}
-              &nbsp;item(s)
-            </Typography>
-          </div>
-          {allMeals
-            .filter((item) => item.category === "meals")
-            .map((item, index) => (
-              <SingleFoodItem
-                key={index}
-                showToast={handleClick}
-                setClickData={setAlertContent}
-                item={item}
-                onAdd={openModal}
-              />
-            ))}
-        </div>
-        {/* swallow section */}
-        <div id="swallow" className={mealsGroup}>
-          <div className={mealsGroup_heading}>
-            <Typography variant="h1">Plumber</Typography>
-            <Typography variant="h1">
-              {allMeals.filter((item) => item.category === "swallow").length}
-              &nbsp;item(s)
-            </Typography>
-          </div>
-          {allMeals
-            .filter((item) => item.category === "swallow")
-            .map((item, index) => (
-              <SingleFoodItem
-                key={index}
-                showToast={handleClick}
-                setClickData={setAlertContent}
-                item={item}
-                onAdd={openModal}
-              />
-            ))}
-        </div>
-        {/* bread sections */}
-        <div id="bread" className={mealsGroup}>
-          <div className={mealsGroup_heading}>
-            <Typography variant="h1">Electrician</Typography>
-            <Typography variant="h1">
-              {allMeals.filter((item) => item.category === "bread").length}
-              &nbsp;item(s)
-            </Typography>
-          </div>
-          {allMeals
-            .filter((item) => item.category === "bread")
-            .map((item, index) => (
-              <SingleFoodItem
-                key={index}
-                showToast={handleClick}
-                setClickData={setAlertContent}
-                item={item}
-                onAdd={openModal}
-              />
-            ))}
-        </div>
-      </div>
-      <div className={cart}>
-        <h1>Your cart</h1>
-
-        {totalQuantities > 0 ? (
-          <>
+        {Object.keys(filteredData).map((category) => (
+          <div id="meals" className={mealsGroup}>
+            <div className={mealsGroup_heading}>
+              <Typography variant="h1">{category}</Typography>
+              <Typography variant="h1">
+                {filteredData[category].length}
+                &nbsp;helper(s)
+              </Typography>
+            </div>
             <div
               style={{
-                maxHeight: "50vh",
-                overflowY: "auto",
-                scrollbarWidth: "thin",
+                marginLeft: "10px",
+                display: "flex",
+                gap: "10px",
               }}
             >
-              {products.map((item, index) => (
-                <CartItem key={index} {...item} />
+              {filteredData[category].map((helper) => (
+                <>
+                  <div
+                    style={{
+                      border: "1px solid grey",
+                      padding: "20px",
+                      gap: "5px",
+                      flexWrap: "wrap",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setCardId(helper.id);
+                      setShowConfirmModal(true);
+                    }}
+                  >
+                    <div>Name: {helper.userName}</div>
+                    <div>Mobile No.: {helper.mobNumber}</div>
+                  </div>
+
+                  {showConfirmModal && cardId === helper.id && (
+                    <div>
+                      <div>Are you Sure to book {helper.userName} ?</div>
+                      <div>
+                        <button
+                          onClick={() => {
+                            setCardId(helper.id);
+                            setShowDistanceModal(true);
+                            setShowConfirmModal(false);
+                            distanceTime(helper.id);
+                          }}
+                        >
+                          Yes
+                        </button>
+                        <button onClick={() => setShowConfirmModal(false)}>
+                          No
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {showDistanceModal && cardId === helper.id && (
+                    <div>
+                      <div>{category} booked successfully !!</div>
+                      {Object.keys(distanceData).map((item) => (
+                        <div>
+                          <div>
+                            {helper.userName} is {distanceData[item]} far.
+                          </div>
+                          <div> Arriving in {distanceData[item]}</div>
+                        </div>
+                      ))}
+                      <div>
+                        <button
+                          onClick={() => {
+                            setShowDistanceModal(false);
+                          }}
+                        >
+                          close
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
               ))}
             </div>
-
-            <div className={submitbutton_section}>
-              <div>
-                <Typography className={Sub_total}>Sub Total</Typography>
-                <Typography className={Sub_total_value}>
-                  #{totalPrice}
-                </Typography>
-              </div>
-              <hr />
-              <div>
-                <Typography className={amount_payable}>
-                  Amount Payable
-                </Typography>
-                <Typography className={amount_payable_value}>
-                  #{totalPrice}
-                </Typography>
-              </div>
-              <Button
-                component={NavLink}
-                to={"/checkout"}
-                style={{ paddingLeft: "90px" }}
-              >
-                Book your helper
-              </Button>
-              <Typography>Note:Be available at the time slot booked</Typography>
-            </div>
-          </>
-        ) : (
-          <div className={empty_cart}>
-            <img src="./empty_cart.svg" />
-            <Typography> </Typography>
           </div>
-        )}
+          // {/* </div> */}
+        ))}
       </div>
+
       <Dialog
         // style={{ position: 'relative' }}
         fullScreen={fullScreen}
