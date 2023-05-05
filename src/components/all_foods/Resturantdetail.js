@@ -135,7 +135,7 @@ export default function Resturantdetail() {
         <div className={location_container}>
           <LocationOnOutlinedIcon className={location_icon} />
           <Typography className={resturant_location} component="p">
-            Abes Engineering College, Ghaziabad.
+            Crossings Republic, Ghaziabad.
           </Typography>
         </div>
         <Typography className={opening_time} component="p">

@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "200vh",
 
     fontFamily: "inter, sans-serif",
+    backgroundColor: "#F4F6F8",
     "@media (max-width: 900px)": {
       flexDirection: "column",
       "& $menu_section": {
@@ -59,6 +60,21 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  // button {
+  //   display: block;
+  //   margin: 0 auto;
+  //   padding: 10px 20px;
+  //   background-color: #4CAF50;
+  //   color: white;
+  //   border: none;
+  //   border-radius: 5px;
+  //   cursor: pointer;
+  //   font-size: 16px;
+  // },
+  // button:hover {
+  //   background-color: #3e8e41;
+  // },
+
   menu_section: {
     padding: "20px",
     position: "sticky",
@@ -94,6 +110,29 @@ const useStyles = makeStyles((theme) => ({
     borderLeft: "1px solid #ebebeb",
     borderRight: "1px solid #ebebeb",
     flex: 5,
+  },
+  fetchBtnStyles: {
+    backgroundColor: "#007bff",
+    color: "#fff",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+  },
+  fetchHelperStyle: {
+    border: "1px solid #ccc",
+    borderRadius: " 5px",
+    padding: "10px",
+    boxShadow: " 0 2px 5px rgba(0, 0, 0, 0.1)",
+  },
+  popupContent: {
+    position: "fixed",
+    top: "50%",
+    left: " 50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#fff",
+    padding: " 20px",
+    borderRadius: "5px",
   },
   searchSection: {
     height: "60px",
@@ -300,6 +339,7 @@ export default function Foodlist() {
   const [allHelpers, setAllHelpers] = React.useState([]);
   const [helpersData, setHelpersData] = useState({});
   const [distanceData, setDistanceData] = useState({});
+  const [nearestHelper, setNearestHelper] = useState({});
   const [activeItem, setActiveItem] = React.useState({
     price: 0,
     totalPrice: 0,
@@ -317,32 +357,38 @@ export default function Foodlist() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [cardId, setCardId] = useState(-1);
   const [showDistanceModal, setShowDistanceModal] = useState(false);
+  const [showNearestHelper, setShowNearestHelper] = useState(false);
 
   const getHelpers = async () => {
+    console.log("Hit get helpers");
     const resp = await axios
       .get("http://localhost:8080/search/getAllHelpers")
       .then((res) => {
+        console.log(res.data);
         localStorage.setItem("allHelpers", JSON.stringify(res.data)); // Store the data in local storage
         setAllHelpers(res.data);
       });
   };
 
+  console.log(allHelpers, "allhelpers");
+
   const fetchHelpers = async () => {
-    const storedData = localStorage.getItem("helpersData"); // Check if the data is stored in local storage
-    if (storedData) {
-      setHelpersData(JSON.parse(storedData)); // Set the data from local storage
-    } else {
-      const categories = {};
-      allHelpers.forEach((item) => {
-        const category = item.subCategory.toLowerCase();
-        if (!categories[category]) {
-          categories[category] = [];
-        }
-        categories[category].push(item);
-      });
-      setHelpersData(categories);
-      localStorage.setItem("helpersData", JSON.stringify(categories)); // Store the data in local storage
-    }
+    // const storedData = localStorage.getItem("helpersData"); // Check if the data is stored in local storage
+    // if (storedData) {
+    //   setHelpersData(JSON.parse(storedData)); // Set the data from local storage
+    // } else {
+    const categories = {};
+    allHelpers.forEach((item) => {
+      const category = item.subCategory.toLowerCase();
+      if (!categories[category]) {
+        categories[category] = [];
+      }
+      categories[category].push(item);
+    });
+    console.log(categories, "qwerty");
+    setHelpersData(categories);
+    //   localStorage.setItem("helpersData", JSON.stringify(categories)); // Store the data in local storage
+    // }
   };
 
   useEffect(async () => {
@@ -352,10 +398,24 @@ export default function Foodlist() {
 
   console.log(helpersData, "categories");
 
+  const sendMessage = async (mob, wId) => {
+    const body = {
+      worker_id: wId,
+      user_id: 1,
+      user_mobile: mob,
+    };
+    const resp = await axios
+      .post("https://shramik-location-apis.onrender.com/book_worker", body)
+      .then((res) => console.log(res, "sms"));
+  };
+
   const fetchNearestHelpers = async () => {
     const resp = await axios
       .post("https://shramik-location-apis.onrender.com/fetch_nearest_worker")
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        setNearestHelper(res.data);
+      });
   };
 
   const distanceTime = async (cId) => {
@@ -463,8 +523,13 @@ export default function Foodlist() {
     price_submit,
     backDrop,
     submitbutton_section,
+    fetchBtnStyles,
+    fetchHelperStyle,
+    popupContent,
   } = useStyles();
 
+  // network tab main abhi bhi shi se hit nhi ho rhi h api dekh lo
+  //pdate nhi ho rhe numberstushar ka number anaa chahie
   return (
     <div className={root}>
       <Snackbar
@@ -482,12 +547,26 @@ export default function Foodlist() {
           />
         </div>
         <button
+          className={fetchBtnStyles}
           onClick={() => {
+            setShowNearestHelper(!showNearestHelper);
             fetchNearestHelpers();
           }}
         >
           Fetch Nearest Helpers
         </button>
+
+        {showNearestHelper && (
+          <div>
+            {Object.keys(nearestHelper).length > 0 && (
+              <div>
+                <div>Name: {nearestHelper.name}</div>
+                <div>Distance: {nearestHelper.distance}</div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* meals section */}
         {Object.keys(filteredData).map((category) => (
           <div id="meals" className={mealsGroup}>
@@ -508,6 +587,7 @@ export default function Foodlist() {
               {filteredData[category].map((helper) => (
                 <>
                   <div
+                    classname={fetchHelperStyle}
                     style={{
                       border: "1px solid grey",
                       padding: "20px",
@@ -523,22 +603,26 @@ export default function Foodlist() {
                     <div>Name: {helper.userName}</div>
                     <div>Mobile No.: {helper.mobNumber}</div>
                   </div>
-
                   {showConfirmModal && cardId === helper.id && (
                     <div>
                       <div>Are you Sure to book {helper.userName} ?</div>
                       <div>
                         <button
+                          className={fetchBtnStyles}
                           onClick={() => {
                             setCardId(helper.id);
                             setShowDistanceModal(true);
                             setShowConfirmModal(false);
                             distanceTime(helper.id);
+                            sendMessage(helper.mobNumber, helper.id);
                           }}
                         >
                           Yes
                         </button>
-                        <button onClick={() => setShowConfirmModal(false)}>
+                        <button
+                          className={fetchBtnStyles}
+                          onClick={() => setShowConfirmModal(false)}
+                        >
                           No
                         </button>
                       </div>
@@ -548,16 +632,17 @@ export default function Foodlist() {
                   {showDistanceModal && cardId === helper.id && (
                     <div>
                       <div>{category} booked successfully !!</div>
-                      {Object.keys(distanceData).map((item) => (
+                      {Object.keys(distanceData).length > 0 && (
                         <div>
                           <div>
-                            {helper.userName} is {distanceData[item]} far.
+                            {helper.userName} is {distanceData.distance} far.
                           </div>
-                          <div> Arriving in {distanceData[item]}</div>
+                          <div> Arriving in {distanceData.time}.</div>
                         </div>
-                      ))}
+                      )}
                       <div>
                         <button
+                          className={fetchBtnStyles}
                           onClick={() => {
                             setShowDistanceModal(false);
                           }}
@@ -571,7 +656,6 @@ export default function Foodlist() {
               ))}
             </div>
           </div>
-          // {/* </div> */}
         ))}
       </div>
 
