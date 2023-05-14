@@ -336,10 +336,6 @@ export default function Foodlist() {
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
-  const [allHelpers, setAllHelpers] = React.useState([]);
-  const [helpersData, setHelpersData] = useState({});
-  const [distanceData, setDistanceData] = useState({});
-  const [nearestHelper, setNearestHelper] = useState({});
   const [activeItem, setActiveItem] = React.useState({
     price: 0,
     totalPrice: 0,
@@ -353,6 +349,10 @@ export default function Foodlist() {
     content: "",
   });
   const [show, setShow] = React.useState(false);
+  const [allHelpers, setAllHelpers] = React.useState([]);
+  const [helpersData, setHelpersData] = useState({});
+  const [distanceData, setDistanceData] = useState({});
+  const [nearestHelper, setNearestHelper] = useState({});
   const [filteredData, setFilteredData] = useState(helpersData);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [cardId, setCardId] = useState(-1);
@@ -364,19 +364,18 @@ export default function Foodlist() {
     const resp = await axios
       .get("http://localhost:8080/search/getAllHelpers")
       .then((res) => {
-        console.log(res.data);
-        localStorage.setItem("allHelpers", JSON.stringify(res.data)); // Store the data in local storage
+        localStorage.setItem("allHelpers", JSON.stringify(res.data));
         setAllHelpers(res.data);
       });
   };
 
-  console.log(allHelpers, "allhelpers");
+  useEffect(() => {
+    getHelpers();
+  }, []);
 
-  const fetchHelpers = async () => {
-    // const storedData = localStorage.getItem("helpersData"); // Check if the data is stored in local storage
-    // if (storedData) {
-    //   setHelpersData(JSON.parse(storedData)); // Set the data from local storage
-    // } else {
+  console.log(allHelpers, "abcd");
+
+  useEffect(() => {
     const categories = {};
     allHelpers.forEach((item) => {
       const category = item.subCategory.toLowerCase();
@@ -387,13 +386,14 @@ export default function Foodlist() {
     });
     console.log(categories, "qwerty");
     setHelpersData(categories);
-    //   localStorage.setItem("helpersData", JSON.stringify(categories)); // Store the data in local storage
-    // }
-  };
+    localStorage.setItem("helpersData", JSON.stringify(categories));
+  }, [allHelpers]);
 
-  useEffect(async () => {
-    await getHelpers();
-    await fetchHelpers();
+  useEffect(() => {
+    const storedData = localStorage.getItem("helpersData");
+    if (storedData) {
+      setHelpersData(JSON.parse(storedData));
+    }
   }, []);
 
   console.log(helpersData, "categories");
