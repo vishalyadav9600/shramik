@@ -120,6 +120,9 @@ const useStyles = makeStyles((theme) => ({
       fontSize: ".9rem",
     },
   },
+  fetchButton: {
+
+  },
   searchIcon: {
     width: "40px",
     color: theme.palette.lightdark2,
@@ -163,6 +166,16 @@ const useStyles = makeStyles((theme) => ({
       margin: "20px 0px",
       cursor: "pointer",
     },
+  },
+  fetchButton: {
+    backgroundColor: "#007bff",
+    color: "#fff",
+    fontSize: "16px",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginTop: "10px",
   },
   Sub_total: {
     color: theme.palette.lightdark3,
@@ -459,6 +472,7 @@ export default function Foodlist() {
     mealsGroup_heading,
     empty_cart,
     items_button,
+    fetchButton,
     quantity_buttons,
     price_submit,
     backDrop,
@@ -482,12 +496,14 @@ export default function Foodlist() {
           />
         </div>
         <button
+          className={fetchButton}
           onClick={() => {
             fetchNearestHelpers();
           }}
         >
           Fetch Nearest Helpers
         </button>
+
         {/* meals section */}
         {Object.keys(filteredData).map((category) => (
           <div id="meals" className={mealsGroup}>

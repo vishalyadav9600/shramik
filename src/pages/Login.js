@@ -238,9 +238,9 @@ export default function Login() {
         )}
       </div>
       <div className={root_right}>
-        <img src="./macaroni-1469.png" />
+        <img src="./home-bai-img.png" />
         <Typography variant="h1">
-          With a free Account getting food has never been easier
+          With a free Account getting helper has never been easier
         </Typography>
       </div>
     </div>

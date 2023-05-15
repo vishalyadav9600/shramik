@@ -142,20 +142,7 @@ export default function SignInForm({ onclick, setClickData, showToast, path }) {
 
                   <Box>
                     <button onClick={postUser}>Sign In</button>
-                    {/* <Button
-                      // startIcon={
-                      //   isSubmitting ? (
-                      //     <CircularProgress color="secondary" size="1rem" />
-                      //   ) : null
-                      // }
-                      onclick={postUser}
-                      className={login_button}
-                      disableElevation
-                      variant="contained"
-                      type="submit"
-                    >
-                      Sign In
-                    </Button> */}
+                   
                   </Box>
                 </Grid>
               </Grid>
@@ -164,10 +151,7 @@ export default function SignInForm({ onclick, setClickData, showToast, path }) {
         </Formik>
       </Box>
 
-      {/* <div className={sign_up_google}>
-    <img src="./social-google.svg" />
-    <Typography>Sign up with Google</Typography>
-  </div> */}
+   
       <Box alignItems="center" display="flex" marginTop="10px">
         <Typography className={recommendation}>
           Dont have an account?
