@@ -14,6 +14,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "../reusables/Snackbar";
+import Modal from "../common/modal";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,21 +61,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  // button {
-  //   display: block;
-  //   margin: 0 auto;
-  //   padding: 10px 20px;
-  //   background-color: #4CAF50;
-  //   color: white;
-  //   border: none;
-  //   border-radius: 5px;
-  //   cursor: pointer;
-  //   font-size: 16px;
-  // },
-  // button:hover {
-  //   background-color: #3e8e41;
-  // },
-
   menu_section: {
     padding: "20px",
     position: "sticky",
@@ -119,11 +105,29 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     transition: "background-color 0.3s ease",
   },
+  fetchCancelBtnStyles: {
+    backgroundColor: "#e7e7e7",
+    color: "black",
+    padding: "10px 20px",
+    border: "none",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+  },
+  fetchConfirmBtnStyles: {
+    backgroundColor: " #f44336",
+    color: "#fff",
+    padding: "10px 20px",
+    border: "none",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+  },
   fetchHelperStyle: {
-    border: "1px solid #ccc",
-    borderRadius: " 5px",
-    padding: "10px",
-    boxShadow: " 0 2px 5px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#FFD300",
+    border: "1px solid #e0e0e0",
+    borderRadius: "5px",
+    padding: "20px",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
   },
   popupContent: {
     position: "fixed",
@@ -140,7 +144,6 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "1px solid #ebebeb",
     alignItems: "center",
     paddingLeft: "15px",
-    position: "sticky",
     zIndex: 999,
     background: "white",
     top: 7,
@@ -359,6 +362,22 @@ export default function Foodlist() {
   const [showDistanceModal, setShowDistanceModal] = useState(false);
   const [showNearestHelper, setShowNearestHelper] = useState(false);
 
+  const openModal = () => {
+    setShowConfirmModal(true);
+  };
+
+  const closeModal = () => {
+    setShowConfirmModal(false);
+  };
+
+  const openDistanceModal = () => {
+    setShowDistanceModal(true);
+  };
+
+  const closeDistanceModal = () => {
+    setShowDistanceModal(false);
+  };
+
   const getHelpers = async () => {
     console.log("Hit get helpers");
     const resp = await axios
@@ -444,10 +463,10 @@ export default function Foodlist() {
   };
 
   //  control modal open
-  const openModal = (item) => {
-    handleClickOpen();
-    setActiveItem({ ...item, totalPrice: item.price, quantity: 1 });
-  };
+  // const openModal = (item) => {
+  //   handleClickOpen();
+  //   setActiveItem({ ...item, totalPrice: item.price, quantity: 1 });
+  // };
 
   // control search
   const searchHandler = (event) => {
@@ -524,6 +543,8 @@ export default function Foodlist() {
     backDrop,
     submitbutton_section,
     fetchBtnStyles,
+    fetchCancelBtnStyles,
+    fetchConfirmBtnStyles,
     fetchHelperStyle,
     popupContent,
   } = useStyles();
@@ -589,68 +610,114 @@ export default function Foodlist() {
                   <div
                     classname={fetchHelperStyle}
                     style={{
-                      border: "1px solid grey",
+                      backgroundColor: "#FFD300",
+                      border: "1px solid #e0e0e0",
+                      borderRadius: "5px",
                       padding: "20px",
-                      gap: "5px",
-                      flexWrap: "wrap",
                       cursor: "pointer",
+                      transition: "all 0.3s ease",
                     }}
+                    // onClick={openModal}
                     onClick={() => {
                       setCardId(helper.id);
-                      setShowConfirmModal(true);
+                      openModal();
                     }}
                   >
                     <div>Name: {helper.userName}</div>
                     <div>Mobile No.: {helper.mobNumber}</div>
                   </div>
+                  {/* <Modal isOpen={isModalOpen} onClose={closeModal}>
+                    <h1>Popup Content</h1>
+                    <p>This is the content of the popup.</p>
+                  </Modal> */}
                   {showConfirmModal && cardId === helper.id && (
-                    <div>
-                      <div>Are you Sure to book {helper.userName} ?</div>
-                      <div>
-                        <button
-                          className={fetchBtnStyles}
-                          onClick={() => {
-                            setCardId(helper.id);
-                            setShowDistanceModal(true);
-                            setShowConfirmModal(false);
-                            distanceTime(helper.id);
-                            sendMessage(helper.mobNumber, helper.id);
+                    <Modal isOpen={showConfirmModal} onClose={closeModal}>
+                      <div style={{ marginTop: "35px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginBottom: "15px",
                           }}
                         >
-                          Yes
-                        </button>
-                        <button
-                          className={fetchBtnStyles}
-                          onClick={() => setShowConfirmModal(false)}
+                          Are you Sure to book {helper.userName} ?
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "15px",
+                          }}
                         >
-                          No
-                        </button>
+                          <button
+                            className={fetchCancelBtnStyles}
+                            onClick={() => {
+                              setCardId(helper.id);
+                              openDistanceModal();
+                              // setShowDistanceModal(true);
+                              closeModal();
+                              // setShowConfirmModal(false);
+                              distanceTime(helper.id);
+                              sendMessage(helper.mobNumber, helper.id);
+                            }}
+                          >
+                            Yes
+                          </button>
+                          <button
+                            className={fetchConfirmBtnStyles}
+                            onClick={() => setShowConfirmModal(false)}
+                          >
+                            No
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    </Modal>
                   )}
 
                   {showDistanceModal && cardId === helper.id && (
-                    <div>
-                      <div>{category} booked successfully !!</div>
-                      {Object.keys(distanceData).length > 0 && (
-                        <div>
-                          <div>
-                            {helper.userName} is {distanceData.distance} far.
-                          </div>
-                          <div> Arriving in {distanceData.time}.</div>
-                        </div>
-                      )}
-                      <div>
-                        <button
-                          className={fetchBtnStyles}
-                          onClick={() => {
-                            setShowDistanceModal(false);
+                    <Modal
+                      isOpen={showDistanceModal}
+                      onClose={closeDistanceModal}
+                    >
+                      <div style={{ marginTop: "35px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginBottom: "15px",
                           }}
                         >
-                          close
-                        </button>
+                          {category} booked successfully !!
+                        </div>
+                        {Object.keys(distanceData).length > 0 && (
+                          <div>
+                            <div>
+                              {helper.userName} is {distanceData.distance} far.
+                            </div>
+                            <div> Arriving in {distanceData.time}.</div>
+                          </div>
+                        )}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <button
+                            className={fetchCancelBtnStyles}
+                            onClick={() => {
+                              setShowDistanceModal(false);
+                            }}
+                          >
+                            close
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    </Modal>
                   )}
                 </>
               ))}
