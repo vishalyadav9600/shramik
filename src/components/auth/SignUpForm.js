@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../services/AuthContext";
 import { Alert, AlertTitle } from "@mui/material";
 import {
   Typography,
@@ -56,24 +57,27 @@ import Textfield from "../partials/FormUI/Textfield";
 import { signup } from "../../store/actions/authActions";
 
 export default function SignUpForm({ onclick, setClickData, showToast, path }) {
-  const [emailText, setEmailText] = useState("");
-  const [passwordText, setPasswordText] = useState("");
+  // const [emailText, setEmailText] = useState("");
+  // const [passwordText, setPasswordText] = useState("");
+  const { emailText, setEmailText, passwordText, setPasswordText, signUp } =
+    useContext(AuthContext);
   const history = useNavigate();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { root_left_lower, login_button, recommendation, recommendation_link } =
     useStyles();
 
-  const postUser = () => {
-    console.log("jssj");
-    axios
-      .post("http://localhost:8080/login/user-signup", {
-        userName: emailText,
-        password: passwordText,
-      })
-      .then((res) => console.log(res.json))
-      .then(() => history("/login"));
-  };
+  // const postUser = () => {
+  //   console.log("jssj");
+  //   axios
+  //     .post("http://localhost:8080/login/user-signup", {
+  //       userName: emailText,
+  //       password: passwordText,
+  //     })
+  //     .then((res) => console.log(res.json))
+  //     .then(() => history("/login"));
+  // };
 
   return (
     <div className={root_left_lower}>
@@ -177,7 +181,9 @@ export default function SignUpForm({ onclick, setClickData, showToast, path }) {
                       disableElevation
                       variant="contained"
                       type="submit"
-                      onClick={postUser}
+                      onClick={async () => {
+                        await signUp();
+                      }}
                     >
                       Sign Up
                     </Button>

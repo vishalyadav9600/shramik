@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link as RouterLink, NavLink, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { AuthContext } from "../../../../services/AuthContext";
 
 // material-ui
 import {
@@ -203,6 +204,7 @@ const ProfileSection = () => {
   const { pathname } = useLocation();
   const state = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
+  const { loggedInUser } = useContext(AuthContext);
 
   const [dropDownData, setDropDownData] = React.useState(null);
 
@@ -293,16 +295,7 @@ const ProfileSection = () => {
                           variant="subtitle1"
                         >
                           Welcome,
-                        </Typography>
-                        <Typography
-                          component="span"
-                          style={{ fontSize: ".94rem" }}
-                          variant="subtitle1"
-                          className={classes.name}
-                        >
-                          {state.authenticated
-                            ? `  ${state.user.firstName}`
-                            : "User"}
+                          {loggedInUser ? ` ${loggedInUser}` : " User"}
                         </Typography>
                       </Grid>
                     </Grid>
