@@ -48,6 +48,12 @@ const signedinUserLinks = [
     title: "Categories",
   },
   {
+    id: "L3",
+    path: "/allbookings",
+    icon: <FaShoppingBag />,
+    title: "Bookings",
+  },
+  {
     id: "L1",
     path: "/signout",
     icon: <AiOutlinePoweroff style={{ color: "red" }} />,
@@ -68,6 +74,12 @@ const unSignedinUserLinks = [
     path: "/allmeals",
     icon: <FaShoppingBag />,
     title: "Categories",
+  },
+  {
+    id: "L3",
+    path: "/allbookings",
+    icon: <FaShoppingBag />,
+    title: "Bookings",
   },
   {
     id: "L1",
