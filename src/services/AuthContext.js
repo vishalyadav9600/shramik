@@ -13,14 +13,20 @@ export const AuthProvider = ({ children }) => {
 
   const signIn = () => {
     axios
-      .post("http://localhost:8080/login/user-login", {
-        userName: emailText,
+      //   .post("http://localhost:8080/login/user-login", {
+      .post("https://shramik-location-apis.onrender.com/login", {
+        // userName: emailText,
+        // password: passwordText,
+        username: emailText,
         password: passwordText,
+        // mobile_number: "6392631899",
+        // address: "jameen pe jaha bhagwan dede",
       })
       .then((res) => {
-        console.log(res.data.userName, "qwerty");
+        console.log(res, "qwerty");
         // const { uName } = res.data.userName;
         setLoggedInUser(res.data.userName);
+        localStorage.setItem("user-auth", res.data.access_token);
         console.log(loggedInUser, "inside func userName");
       })
       .then(() => history("/"));
@@ -30,15 +36,31 @@ export const AuthProvider = ({ children }) => {
 
   const signUp = () => {
     axios
-      .post("http://localhost:8080/login/user-signup", {
-        userName: emailText,
+      //   .post("http://localhost:8080/login/user-signup", {
+      .post("https://shramik-location-apis.onrender.com/signup", {
+        // userName: emailText,
+        // password: passwordText,
+        username: emailText,
         password: passwordText,
+        mobile_number: "6392631899",
+        address: "jameen pe jaha bhagwan dede",
       })
       .then((res) => {
         console.log(res, "logout");
         setLoggedInUser(null);
       })
       .then(() => history("/login"));
+  };
+
+  //   localStorage.removeItem('itemKey');
+
+  const logOut = () => {
+    axios
+      .post("http://127.0.0.1:5000/logout", {})
+      .then((res) => {
+        localStorage.removeItem("user-auth");
+      })
+      .then(() => history("/"));
   };
 
   return (
@@ -51,6 +73,7 @@ export const AuthProvider = ({ children }) => {
         setPasswordText,
         signIn,
         signUp,
+        logOut,
       }}
     >
       {children}

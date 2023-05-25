@@ -204,16 +204,16 @@ const ProfileSection = () => {
   const { pathname } = useLocation();
   const state = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
-  const { loggedInUser } = useContext(AuthContext);
+  const { loggedInUser, logOut } = useContext(AuthContext);
 
   const [dropDownData, setDropDownData] = React.useState(null);
 
   const [open, setOpen] = React.useState(false);
   React.useEffect(() => {
-    if (state.authenticated) {
-      setDropDownData(signedinUserLinks);
-    } else {
+    if (loggedInUser === null) {
       setDropDownData(unSignedinUserLinks);
+    } else {
+      setDropDownData(signedinUserLinks);
     }
   }, [state.authenticated]);
 
@@ -311,9 +311,9 @@ const ProfileSection = () => {
                           <Button
                             disableElevation
                             key={index}
-                            onClick={() => {
-                              handleClose(event);
-                              link.title === "Sign Out" && handleLogout();
+                            onClick={async () => {
+                              link.title === "Sign Out";
+                              logOut();
                             }}
                             className={
                               pathname === link.path ? selected : button
