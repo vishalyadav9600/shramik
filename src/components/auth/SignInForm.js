@@ -40,8 +40,18 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     "& :hover": {
       color: "black",
-      //  background: 'lightgreen',
+      // background: "lightgreen",
     },
+  },
+
+  inputField: {
+    width: "100%",
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    outline: "none",
+    fontFamily: "Mulish",
+    fontSize: "1rem",
   },
 
   recommendation: {
@@ -61,32 +71,20 @@ export default function SignInForm({ onclick, setClickData, showToast, path }) {
   // const [emailText, setEmailText] = useState("");
   // const [passwordText, setPasswordText] = useState("");
 
-  const { emailText, setEmailText, passwordText, setPasswordText, signIn } =
-    useContext(AuthContext);
+  const { setEmailText, setPasswordText, signIn } = useContext(AuthContext);
   const history = useNavigate();
-  // const dispatch = useDispatch();
-
-  // console.log(emailText);
-  // console.log(passwordText);
-
-  // const postUser = () => {
-  //   console.log("jssj");
-  //   axios
-  //     .post("http://localhost:8080/login/user-login", {
-  //       userName: emailText,
-  //       password: passwordText,
-  //     })
-  //     .then((res) => console.log(res.json))
-  //     .then(() => history("/"));
-  // };
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { root_left_lower, login_button, recommendation, recommendation_link } =
-    useStyles();
+  const {
+    root_left_lower,
+    login_button,
+    recommendation,
+    recommendation_link,
+    inputField,
+  } = useStyles();
   return (
     <div className={root_left_lower}>
-      <Typography>get your food</Typography>
+      <Typography>get your helper easily</Typography>
       <Typography variant="h1" component="h1">
         Login to Your Account
       </Typography>
@@ -124,28 +122,31 @@ export default function SignInForm({ onclick, setClickData, showToast, path }) {
                   <Box marginTop="10px">
                     <input
                       type="text"
-                      placeholder="email"
+                      placeholder="Enter your name"
                       onChange={(e) => setEmailText(e.target.value)}
+                      className={inputField}
                     />
                   </Box>
 
                   <Box marginTop="10px">
                     <input
                       type="password"
-                      placeholder="password"
+                      placeholder="Enter your password"
                       onChange={(e) => setPasswordText(e.target.value)}
+                      className={inputField}
                     />
                   </Box>
 
                   <Box>
-                    <button
+                    <Button
                       type="submit"
+                      className={login_button}
                       onClick={async () => {
                         await signIn();
                       }}
                     >
                       Sign In
-                    </button>
+                    </Button>
                   </Box>
                 </Grid>
               </Grid>
