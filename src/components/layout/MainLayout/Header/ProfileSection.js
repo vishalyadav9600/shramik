@@ -51,15 +51,9 @@ const signedinUserLinks = [
   },
   {
     id: "L3",
-    path: "/allbookings",
+    path: "/allbookingsandreviews",
     icon: <FaShoppingBag />,
-    title: "Bookings",
-  },
-  {
-    id: "L4",
-    path: "/allreviews",
-    icon: <FaShoppingBag />,
-    title: "Reviews",
+    title: "Bookings & Reviews",
   },
   {
     id: "L1",
@@ -85,15 +79,9 @@ const unSignedinUserLinks = [
   },
   {
     id: "L3",
-    path: "/allbookings",
+    path: "/allbookingsandreviews",
     icon: <FaShoppingBag />,
-    title: "Bookings",
-  },
-  {
-    id: "L4",
-    path: "/allreviews",
-    icon: <FaShoppingBag />,
-    title: "Reviews",
+    title: "Bookings & Reviews",
   },
   {
     id: "L1",

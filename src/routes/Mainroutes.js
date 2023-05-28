@@ -7,7 +7,6 @@ import Myminiorders from "../components/user_profile/Myminiorders";
 import Home from "../pages/Home";
 import Allfoods from "../pages/Allfoods";
 import Bookings from "../pages/Bookings";
-import Reviews from "../pages/Reviews";
 import Checkout from "../pages/Checkout";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
@@ -22,12 +21,8 @@ const AuthenticationRoutes = (isLoggedIn) => [
     element: <Allfoods />,
   },
   {
-    path: "/allbookings",
+    path: "/allbookingsandreviews",
     element: <Bookings />,
-  },
-  {
-    path: "/allreviews",
-    element: <Reviews />,
   },
   {
     path: "/checkout",
