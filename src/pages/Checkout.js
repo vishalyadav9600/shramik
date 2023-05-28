@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { usePaystackPayment } from 'react-paystack';
+import React, { useState, useEffect } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { usePaystackPayment } from "react-paystack";
 import {
   makeStyles,
   Stepper,
@@ -14,143 +14,143 @@ import {
   createTheme,
   ThemeProvider,
   CircularProgress,
-} from '@material-ui/core';
-import { Formik, Form } from 'formik';
-import { BsArrowLeft } from 'react-icons/bs';
-import * as Yup from 'yup';
+} from "@material-ui/core";
+import { Formik, Form } from "formik";
+import { BsArrowLeft } from "react-icons/bs";
+import * as Yup from "yup";
 
-import Textfield from '../components/partials/FormUI/Textfield';
-import SelectWrapper from '../components/partials/FormUI/SelectWrapper';
-import stateData from '../utils/stateData.json';
-import RadioWrapper from '../components/partials/FormUI/RadioWrapper';
-import Paymentmethod from '../components/partials/FormUI/Paymentmethod';
-import Cartcheckout from '../components/reusables/Cartcheckout';
-import { processOrder } from '../store/actions/orderActions';
-import Snackbar from '../components/reusables/Snackbar';
-import NotFound from './NotFound';
-import use_avatar from '../utils/use_avatar.json';
-import getCookie from '../helpers/getCookie';
+import Textfield from "../components/partials/FormUI/Textfield";
+import SelectWrapper from "../components/partials/FormUI/SelectWrapper";
+import stateData from "../utils/stateData.json";
+import RadioWrapper from "../components/partials/FormUI/RadioWrapper";
+import Paymentmethod from "../components/partials/FormUI/Paymentmethod";
+import Cartcheckout from "../components/reusables/Cartcheckout";
+import { processOrder } from "../store/actions/orderActions";
+import Snackbar from "../components/reusables/Snackbar";
+import NotFound from "./NotFound";
+import use_avatar from "../utils/use_avatar.json";
+import getCookie from "../helpers/getCookie";
 
 let values = null;
 
 //material ui style
 const useStyles = makeStyles((theme) => ({
   checkout: {
-    width: '100%',
-    display: 'flex',
-    paddingTop: '35px',
-    '@media (max-width: 600px)': {
-      flexDirection: 'column',
+    width: "100%",
+    display: "flex",
+    paddingTop: "35px",
+    "@media (max-width: 600px)": {
+      flexDirection: "column",
     },
   },
   button: {
     marginRight: theme.spacing(1),
   },
   checkout_left: {
-    flex: '0.7',
-    paddingLeft: '120px',
-    '@media (max-width: 900px)': {
-      padding: '0 10px',
+    flex: "0.7",
+    paddingLeft: "120px",
+    "@media (max-width: 900px)": {
+      padding: "0 10px",
     },
   },
   checkout_right: {
-    flex: '0.3',
+    flex: "0.3",
   },
   customer_info: {
-    fontWeight: '600',
-    fontSize: '1.2rem',
-    fontFamily: 'mulish',
-    marginBottom: '20px',
+    fontWeight: "600",
+    fontSize: "1.2rem",
+    fontFamily: "mulish",
+    marginBottom: "20px",
   },
   shopping_cart_heading: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    paddingRight: '50px',
-    paddingLeft: '25px',
-    marginBottom: '15px',
-    marginTop: '20px',
-    '& > :nth-child(1)': {
-      fontWeight: '600',
-      fontSize: '1.2rem',
-      fontFamily: 'mulish',
+    display: "flex",
+    justifyContent: "space-between",
+    paddingRight: "50px",
+    paddingLeft: "25px",
+    marginBottom: "15px",
+    marginTop: "20px",
+    "& > :nth-child(1)": {
+      fontWeight: "600",
+      fontSize: "1.2rem",
+      fontFamily: "mulish",
     },
-    '& > :nth-child(2)': {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '24px',
-      width: '24px',
-      borderRadius: '50%',
-      background: '#0077E2',
-      color: 'white',
+    "& > :nth-child(2)": {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "24px",
+      width: "24px",
+      borderRadius: "50%",
+      background: "#0077E2",
+      color: "white",
     },
   },
   adress_box_details: {
-    fontSize: '0.9rem',
-    marginTop: '3px',
+    fontSize: "0.9rem",
+    marginTop: "3px",
   },
   backsection: {
-    display: 'flex',
-    alignItems: 'center',
-    cursor: 'pointer',
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
 
-    '& :nth-child(1)': {
-      fontSize: '1rem',
+    "& :nth-child(1)": {
+      fontSize: "1rem",
     },
-    '& :nth-child(2)': {
-      fontSize: '.9rem',
-      marginLeft: '10px',
+    "& :nth-child(2)": {
+      fontSize: ".9rem",
+      marginLeft: "10px",
     },
   },
   controls: {
-    marginTop: '60px',
-    marginBottom: '30px',
-    display: 'flex',
-    justifyContent: 'space-between',
+    marginTop: "60px",
+    marginBottom: "30px",
+    display: "flex",
+    justifyContent: "space-between",
   },
   edit_address: {
-    cursor: 'pointer',
-    fontSize: '0.9rem',
-    fontWeight: '600',
+    cursor: "pointer",
+    fontSize: "0.9rem",
+    fontWeight: "600",
   },
   submitbutton_section: {
-    margin: '40px 0',
-    padding: '0 25px',
+    margin: "40px 0",
+    padding: "0 25px",
 
-    '& :nth-child(1)': {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+    "& :nth-child(1)": {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
     },
-    '& > :nth-child(2)': {
-      height: '1px',
-      margin: '10px 0',
+    "& > :nth-child(2)": {
+      height: "1px",
+      margin: "10px 0",
     },
-    '& :nth-child(3)': {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+    "& :nth-child(3)": {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
     },
   },
   Sub_total: {
     color: theme.palette.lightdark3,
-    fontSize: '.9rem',
+    fontSize: ".9rem",
   },
   Sub_total_value: {
     color: theme.palette.lightdark3,
-    fontSize: '.9rem',
+    fontSize: ".9rem",
   },
   amount_payable: {
-    fontSize: '.9rem',
-    fontWeight: '600',
+    fontSize: ".9rem",
+    fontWeight: "600",
   },
   amount_payable_value: {
-    fontSize: '.9rem',
-    fontWeight: '600',
+    fontSize: ".9rem",
+    fontWeight: "600",
   },
   note: {
-    fontSize: '0.9rem',
-    marginTop: '10px',
+    fontSize: "0.9rem",
+    marginTop: "10px",
   },
 }));
 
@@ -163,11 +163,11 @@ const muiTheme = createTheme({
   overrides: {
     MuiStepIcon: {
       root: {
-        '&$completed': {
-          color: '#0077E2',
+        "&$completed": {
+          color: "#0077E2",
         },
-        '&$active': {
-          color: '#0077E2',
+        "&$active": {
+          color: "#0077E2",
         },
       },
     },
@@ -201,8 +201,8 @@ export default function Checkout() {
   );
 
   const [alertContent, setAlertContent] = React.useState({
-    type: 'error',
-    content: '',
+    type: "error",
+    content: "",
   });
 
   const [open, setOpen] = React.useState(false);
@@ -212,7 +212,7 @@ export default function Checkout() {
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -242,17 +242,17 @@ export default function Checkout() {
 
   const memoizedResult = React.useMemo(() => {
     if (!cookie) {
-      dispatch({ type: 'SIGN_OUT' });
-      console.log('here');
+      dispatch({ type: "SIGN_OUT" });
+      console.log("here");
     }
   }, [cookie]);
 
   //paystack hook
   const initializePayment = usePaystackPayment({
     reference: new Date().getTime().toString(),
-    email: 'user@example.com',
+    email: "user@example.com",
     amount: totalPrice,
-    publicKey: 'pk_test_9667838c0fa5f162be811a2e81b1ec5a9394ee74',
+    publicKey: "pk_test_9667838c0fa5f162be811a2e81b1ec5a9394ee74",
   });
 
   //onSuccess Clone
@@ -274,29 +274,29 @@ export default function Checkout() {
         id: reference.reference,
         status: reference.status,
       },
-      deliveryPrice: values.deliveryMethod === 'paid' ? 1000 : 0,
+      deliveryPrice: values.deliveryMethod === "paid" ? 1000 : 0,
       totalPrice:
-        values.deliveryMethod === 'paid' ? totalPrice + 1000 : totalPrice,
+        values.deliveryMethod === "paid" ? totalPrice + 1000 : totalPrice,
     };
 
     await dispatch(processOrder(order));
 
     if (window.store.getState().orderReducer.status === true) {
       await setAlertContent({
-        type: 'success',
+        type: "success",
         content: window.store.getState().orderReducer.message,
       });
       handleClick();
     } else {
       await setAlertContent({
-        type: 'error',
+        type: "error",
         content: window.store.getState().orderReducer.message,
       });
       handleClick();
     }
     setTimeout(() => {
-      dispatch({ type: 'EMPTY_ORDER' });
-      dispatch({ type: 'EMPTY_CART' });
+      dispatch({ type: "EMPTY_ORDER" });
+      dispatch({ type: "EMPTY_CART" });
     }, 3000);
   };
 
@@ -306,13 +306,13 @@ export default function Checkout() {
   };
 
   const [customer_detail, set_Customer_detail] = useState({
-    firstName: '',
-    lastName: '',
-    address: '',
-    country: '',
-    city: '',
-    phone: '',
-    state: '',
+    firstName: "",
+    lastName: "",
+    address: "",
+    country: "",
+    city: "",
+    phone: "",
+    state: "",
   });
 
   useEffect(() => {
@@ -331,13 +331,13 @@ export default function Checkout() {
             initialValues={{
               firstName: user.firstName,
               lastName: user.lastName,
-              address: '',
-              postalCode: '',
-              city: '',
-              phone: '',
-              state: '',
-              deliveryMethod: '',
-              paymentMethod: '',
+              address: "",
+              postalCode: "",
+              city: "",
+              phone: "",
+              state: "",
+              deliveryMethod: "",
+              paymentMethod: "",
             }}
             onSubmit={async (formvalues) => {
               await sleep(3000);
@@ -345,11 +345,11 @@ export default function Checkout() {
               const cookie = getCookie(token);
               if (!cookie) {
                 await setAlertContent({
-                  type: 'error',
-                  content: 'session expired',
+                  type: "error",
+                  content: "session expired",
                 });
                 handleClick();
-                dispatch({ type: 'SIGN_OUT' });
+                dispatch({ type: "SIGN_OUT" });
                 return;
               }
 
@@ -359,20 +359,20 @@ export default function Checkout() {
           >
             <FormikStep
               validationSchema={Yup.object().shape({
-                firstName: Yup.string().required('First Name is Required'),
-                lastName: Yup.string().required('Last Name is Required'),
-                address: Yup.string().required('Address is Required'),
+                firstName: Yup.string().required("First Name is Required"),
+                lastName: Yup.string().required("Last Name is Required"),
+                address: Yup.string().required("Address is Required"),
                 //  postalCode: Yup.string().required('postalCode is Required'),
-                city: Yup.string().required('city is Required'),
+                city: Yup.string().required("city is Required"),
                 postalCode: Yup.number()
                   .integer()
-                  .typeError('Please enter a valid postal number')
-                  .required('Postal code is Required'),
+                  .typeError("Please enter a valid postal number")
+                  .required("Postal code is Required"),
                 phone: Yup.number()
                   .integer()
-                  .typeError('Please enter a valid phone number')
-                  .required('Phone is Required'),
-                state: Yup.string().required('state is required'),
+                  .typeError("Please enter a valid phone number")
+                  .required("Phone is Required"),
+                state: Yup.string().required("state is required"),
               })}
               label="Customer"
             >
@@ -420,7 +420,7 @@ export default function Checkout() {
             <FormikStep
               validationSchema={Yup.object().shape({
                 deliveryMethod: Yup.string().required(
-                  'You must select a delivery method'
+                  "You must select a delivery method"
                 ),
               })}
               label="Shipping"
@@ -477,7 +477,7 @@ export default function Checkout() {
             <FormikStep
               validationSchema={Yup.object().shape({
                 paymentMethod: Yup.string().required(
-                  'You must select a payment method'
+                  "You must select a payment method"
                 ),
               })}
               label="Payment"
@@ -497,7 +497,7 @@ export default function Checkout() {
         </div>
       ) : (
         <div className={checkout_left}>
-          <NotFound path="/login" text="Login" animationData={use_avatar} />
+          <NotFound path="/signin" text="Login" animationData={use_avatar} />
         </div>
       )}
 
@@ -597,7 +597,7 @@ export function FormikStepper({ children, ...props }) {
             {step === 0 ? (
               <Grid
                 className={backsection}
-                onClick={() => history('/allmeals')}
+                onClick={() => history("/allmeals")}
                 item
               >
                 <BsArrowLeft />
@@ -664,10 +664,10 @@ export function FormikStepper({ children, ...props }) {
                   type="submit"
                 >
                   {isSubmitting
-                    ? 'Submitting'
+                    ? "Submitting"
                     : isLastStep()
-                    ? 'Complete Order'
-                    : 'Next'}
+                    ? "Complete Order"
+                    : "Next"}
                 </Button>
               </Grid>
             ) : null}

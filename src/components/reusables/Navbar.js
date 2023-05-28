@@ -28,6 +28,14 @@ const headersData = (path) => [
     label: "Categories",
     href: "/allmeals",
   },
+  {
+    label: "Bookings",
+    href: "/allbookings",
+  },
+  {
+    label: "Reviews",
+    href: "/allreviews",
+  },
 ];
 
 const useStyles = makeStyles({

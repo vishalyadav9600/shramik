@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import axios from "axios";
 import { Link as RouterLink, NavLink, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { AuthContext } from "../../../../services/AuthContext";
 
 // material-ui
 import {
@@ -48,6 +50,18 @@ const signedinUserLinks = [
     title: "Categories",
   },
   {
+    id: "L3",
+    path: "/allbookings",
+    icon: <FaShoppingBag />,
+    title: "Bookings",
+  },
+  {
+    id: "L4",
+    path: "/allreviews",
+    icon: <FaShoppingBag />,
+    title: "Reviews",
+  },
+  {
     id: "L1",
     path: "/signout",
     icon: <AiOutlinePoweroff style={{ color: "red" }} />,
@@ -68,6 +82,18 @@ const unSignedinUserLinks = [
     path: "/allmeals",
     icon: <FaShoppingBag />,
     title: "Categories",
+  },
+  {
+    id: "L3",
+    path: "/allbookings",
+    icon: <FaShoppingBag />,
+    title: "Bookings",
+  },
+  {
+    id: "L4",
+    path: "/allreviews",
+    icon: <FaShoppingBag />,
+    title: "Reviews",
   },
   {
     id: "L1",
@@ -191,17 +217,21 @@ const ProfileSection = () => {
   const { pathname } = useLocation();
   const state = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
+  const { loggedInUser, setLoggedInUser } = useContext(AuthContext);
 
   const [dropDownData, setDropDownData] = React.useState(null);
 
   const [open, setOpen] = React.useState(false);
+
+  console.log(loggedInUser, "loggedInUser");
+
   React.useEffect(() => {
-    if (state.authenticated) {
-      setDropDownData(signedinUserLinks);
-    } else {
+    if (loggedInUser === null) {
       setDropDownData(unSignedinUserLinks);
+    } else {
+      setDropDownData(signedinUserLinks);
     }
-  }, [state.authenticated]);
+  }, [loggedInUser]);
 
   const anchorRef = React.useRef(null);
   const handleLogout = async () => {
@@ -216,6 +246,29 @@ const ProfileSection = () => {
     }
 
     setOpen(false);
+  };
+  const authToken = localStorage.getItem("user-auth");
+
+  const logOut = async () => {
+    try {
+      const response = await axios.post(
+        "https://shramik-location-apis.onrender.com/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        localStorage.removeItem("user-auth");
+        setLoggedInUser(null);
+        setOpen(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
@@ -281,16 +334,7 @@ const ProfileSection = () => {
                           variant="subtitle1"
                         >
                           Welcome,
-                        </Typography>
-                        <Typography
-                          component="span"
-                          style={{ fontSize: ".94rem" }}
-                          variant="subtitle1"
-                          className={classes.name}
-                        >
-                          {state.authenticated
-                            ? `  ${state.user.firstName}`
-                            : "User"}
+                          {loggedInUser ? ` ${loggedInUser}` : " User"}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -306,9 +350,9 @@ const ProfileSection = () => {
                           <Button
                             disableElevation
                             key={index}
-                            onClick={() => {
-                              handleClose(event);
-                              link.title === "Sign Out" && handleLogout();
+                            onClick={async () => {
+                              link.title === "Sign Out";
+                              logOut();
                             }}
                             className={
                               pathname === link.path ? selected : button

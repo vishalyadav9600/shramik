@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../services/AuthContext";
 import { Alert, AlertTitle } from "@mui/material";
 import {
   Typography,
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     "& :hover": {
       color: "black",
-      //  background: 'lightgreen',
+      // background: "lightgreen",
     },
   },
 
@@ -50,34 +51,38 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     marginLeft: "5px",
   },
+  inputField: {
+    width: "100%",
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    outline: "none",
+    fontFamily: "Mulish",
+    fontSize: "1rem",
+  },
 }));
 
 import Textfield from "../partials/FormUI/Textfield";
 import { signup } from "../../store/actions/authActions";
 
 export default function SignUpForm({ onclick, setClickData, showToast, path }) {
-  const [emailText, setEmailText] = useState("");
-  const [passwordText, setPasswordText] = useState("");
+  const { setEmailText, setPasswordText, signUp, setMobNumber } =
+    useContext(AuthContext);
   const history = useNavigate();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { root_left_lower, login_button, recommendation, recommendation_link } =
-    useStyles();
 
-  const postUser = () => {
-    console.log("jssj");
-    axios
-      .post("http://localhost:8080/login/user-signup", {
-        userName: emailText,
-        password: passwordText,
-      })
-      .then((res) => console.log(res.json))
-      .then(() => history("/login"));
-  };
+  const {
+    root_left_lower,
+    login_button,
+    recommendation,
+    recommendation_link,
+    inputField,
+  } = useStyles();
 
   return (
     <div className={root_left_lower}>
-      <Typography>get your food</Typography>
+      <Typography>get your helper easily</Typography>
       <Typography variant="h1" component="h1">
         Create an Account
       </Typography>
@@ -127,45 +132,33 @@ export default function SignUpForm({ onclick, setClickData, showToast, path }) {
             <Form autoComplete="off">
               <Grid container>
                 <Grid xs={12} item>
-                  {/* <Box marginTop="10px">
-                    <Textfield name="firstName" helpertext="First Name" />
-                  </Box>
-                  <Box marginTop="10px">
-                    <Textfield name="lastName" helpertext="Last Name" />
-                  </Box> */}
                   <Box marginTop="10px">
                     <input
                       type="text"
-                      placeholder="email"
+                      placeholder="Enter your Name"
                       onChange={(e) => setEmailText(e.target.value)}
+                      className={inputField}
                     />
-                    {/* <Textfield
-                      name="email"
-                      helpertext="Email Address"
-                      onChange={(e) => setEmailText(e.target.value)}
-                    /> */}
+                  </Box>
+
+                  <Box marginTop="10px">
+                    <input
+                      type="number"
+                      placeholder="Enter your mobile number"
+                      onChange={(e) => setMobNumber(e.target.value)}
+                      className={inputField}
+                    />
                   </Box>
 
                   <Box marginTop="10px">
                     <input
                       type="password"
-                      placeholder="password"
+                      placeholder="Enter your password"
                       onChange={(e) => setPasswordText(e.target.value)}
+                      className={inputField}
                     />
-                    {/* <Textfield
-                      onChange={(e) => setPasswordText(e.target.value)}
-                      type="password"
-                      name="password"
-                      helpertext="Password"
-                    /> */}
                   </Box>
-                  {/* <Box marginTop="10px">
-                    <Textfield
-                      type="password"
-                      name="confirmPassword"
-                      helpertext="Confirm Password"
-                    />
-                  </Box> */}
+
                   <Box>
                     <Button
                       startIcon={
@@ -177,7 +170,9 @@ export default function SignUpForm({ onclick, setClickData, showToast, path }) {
                       disableElevation
                       variant="contained"
                       type="submit"
-                      onClick={postUser}
+                      onClick={async () => {
+                        await signUp();
+                      }}
                     >
                       Sign Up
                     </Button>
