@@ -26,8 +26,12 @@ const links = [
     title: "Home",
   },
   { id: "L1", path: "/allmeals", icon: <IoFastFood />, title: "Categories" },
-  { id: "L2", path: "/allbookings", icon: <IoFastFood />, title: "Bookings" },
-  { id: "L3", path: "/allreviews", icon: <IoFastFood />, title: "Reviews" },
+  {
+    id: "L2",
+    path: "/allbookingsandreviews",
+    icon: <IoFastFood />,
+    title: "Bookings & Reviews",
+  },
 ];
 
 // style const

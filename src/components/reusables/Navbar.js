@@ -29,12 +29,8 @@ const headersData = (path) => [
     href: "/allmeals",
   },
   {
-    label: "Bookings",
-    href: "/allbookings",
-  },
-  {
-    label: "Reviews",
-    href: "/allreviews",
+    label: "Bookings & Reviews",
+    href: "/allbookingsandreviews",
   },
 ];
 
