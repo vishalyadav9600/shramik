@@ -32,6 +32,10 @@ const headersData = (path) => [
     label: "Bookings",
     href: "/allbookings",
   },
+  {
+    label: "Reviews",
+    href: "/allreviews",
+  },
 ];
 
 const useStyles = makeStyles({

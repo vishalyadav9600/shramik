@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   makeStyles,
   Typography,
@@ -14,6 +14,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "../reusables/Snackbar";
+import { AuthContext } from "../../services/AuthContext";
 import Modal from "../common/modal";
 import axios from "axios";
 
@@ -361,6 +362,7 @@ export default function Foodlist() {
   const [cardId, setCardId] = useState(-1);
   const [showDistanceModal, setShowDistanceModal] = useState(false);
   const [showNearestHelper, setShowNearestHelper] = useState(false);
+  const { loggedInMobNumber, loggedInUserId } = useContext(AuthContext);
 
   const openModal = () => {
     setShowConfirmModal(true);
@@ -417,20 +419,34 @@ export default function Foodlist() {
 
   console.log(helpersData, "categories");
 
-  const sendMessage = async (mob, wId) => {
+  const authToken = localStorage.getItem("user-auth");
+
+  const sendMessage = async (wId) => {
     const body = {
       worker_id: wId,
-      user_id: 1,
-      user_mobile: mob,
+      user_id: loggedInUserId,
+      user_mobile: "+916392631899",
     };
     const resp = await axios
-      .post("https://shramik-location-apis.onrender.com/book_worker", body)
+      .post("https://shramik-location-apis.onrender.com/book_worker", body, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
       .then((res) => console.log(res, "sms"));
   };
 
   const fetchNearestHelpers = async () => {
     const resp = await axios
-      .post("https://shramik-location-apis.onrender.com/fetch_nearest_worker")
+      .post(
+        "https://shramik-location-apis.onrender.com/fetch_nearest_worker",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         setNearestHelper(res.data);
@@ -440,7 +456,13 @@ export default function Foodlist() {
   const distanceTime = async (cId) => {
     const resp = await axios
       .post(
-        `https://shramik-location-apis.onrender.com/calculate_distance/${cId}`
+        `https://shramik-location-apis.onrender.com/calculate_distance/${cId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
       )
       .then((res) => {
         console.log(res.data);
@@ -461,12 +483,6 @@ export default function Foodlist() {
 
     setShow(false);
   };
-
-  //  control modal open
-  // const openModal = (item) => {
-  //   handleClickOpen();
-  //   setActiveItem({ ...item, totalPrice: item.price, quantity: 1 });
-  // };
 
   // control search
   const searchHandler = (event) => {
@@ -626,10 +642,7 @@ export default function Foodlist() {
                     <div>Name: {helper.userName}</div>
                     <div>Mobile No.: {helper.mobNumber}</div>
                   </div>
-                  {/* <Modal isOpen={isModalOpen} onClose={closeModal}>
-                    <h1>Popup Content</h1>
-                    <p>This is the content of the popup.</p>
-                  </Modal> */}
+
                   {showConfirmModal && cardId === helper.id && (
                     <Modal isOpen={showConfirmModal} onClose={closeModal}>
                       <div style={{ marginTop: "35px" }}>
@@ -656,11 +669,9 @@ export default function Foodlist() {
                             onClick={() => {
                               setCardId(helper.id);
                               openDistanceModal();
-                              // setShowDistanceModal(true);
                               closeModal();
-                              // setShowConfirmModal(false);
                               distanceTime(helper.id);
-                              sendMessage(helper.mobNumber, helper.id);
+                              sendMessage(helper.id);
                             }}
                           >
                             Yes

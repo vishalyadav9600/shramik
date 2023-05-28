@@ -1,26 +1,64 @@
-import React, { useEffect, useState } from "react";
-import {
-  makeStyles,
-  Typography,
-  Dialog,
-  DialogContent,
-  Radio,
-  FormControlLabel,
-  DialogTitle,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
-import { useDispatch, useSelector } from "react-redux";
-import Snackbar from "../reusables/Snackbar";
+import React, { useEffect, useState, useContext } from "react";
+import { useTheme } from "@material-ui/core";
+import { Button, Grid, Box } from "@material-ui/core";
 import Modal from "../common/modal";
 import axios from "axios";
-// import booking from "../../../public/booking_pg.png";
+import { AuthContext } from "../../services/AuthContext";
 import "./BookHelper.css";
 
 export default function BookHeler() {
-  const theme = useTheme();
+  const [allBookings, setAllBookings] = useState([]);
+  const [giveRatingModal, setGiveRatingModal] = useState(false);
+  const [workerId, setWorkerId] = useState(-1);
+  const [messageText, setMessageText] = useState("");
+  const [ratingText, setRatingText] = useState(-1);
+  const { loggedInUserId } = useContext(AuthContext);
+  const authToken = localStorage.getItem("user-auth");
+
+  const openRatingModal = () => {
+    setGiveRatingModal(true);
+  };
+
+  const closeRatingModal = () => {
+    setGiveRatingModal(false);
+  };
+
+  const getAllBooking = async () => {
+    await axios
+      .get(
+        `https://shramik-location-apis.onrender.com/user_bookings/${loggedInUserId}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res, "booking");
+        setAllBookings(res.data.bookings);
+      });
+  };
+
+  useEffect(() => {
+    getAllBooking();
+  }, []);
+
+  const submitRating = async (wId) => {
+    const body = {
+      worker_id: wId,
+      user_id: loggedInUserId,
+      review: messageText,
+      rating: parseInt(ratingText),
+    };
+    await axios
+      .post("https://shramik-location-apis.onrender.com/review", body, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      .then((res) => console.log(res, "sms"));
+  };
 
   return (
     <div
@@ -30,37 +68,74 @@ export default function BookHeler() {
       <div className="booking-inner-wrapper">
         <div className="booking-header">My Bookings</div>
         <div className="booking-list-wrapper-outer">
-          <div className="booking-list-wrapper">
-            <div className="booking-list-name">Mukesh</div>
-            <div className="booking-list-category">Category: Plumber</div>
-            <div className="booking-list-rating">Rating: 4.5/5</div>
-            <div className="booking-list-vacinated">Covid-19: Vaccinated</div>
-            <div className="booking-list-age">Age: 27 yrs</div>
-            <div className="booking-list-distance">
-              Distance: 2 km from your location
+          {allBookings.map((ele, index) => (
+            <div className="booking-list-wrapper">
+              <div className="booking-list-name">{ele.worker_name}</div>
+              <div className="booking-list-category">Category: Plumber</div>
+              <div className="booking-list-rating">Price: {ele.price}</div>
+              <div className="booking-list-vacinated">Covid-19: Vaccinated</div>
+              <div className="booking-list-age">Status: {ele.status}</div>
+              <div className="booking-list-distance">
+                Booked At: {new Date(ele.booked_at).toLocaleString()}
+              </div>
+              <button
+                className="rating-btn"
+                onClick={() => {
+                  setWorkerId(ele.worker_id);
+                  openRatingModal();
+                }}
+              >
+                Give Rating
+              </button>
+
+              {giveRatingModal && workerId === ele.worker_id && (
+                <Modal isOpen={giveRatingModal} onClose={closeRatingModal}>
+                  <div>
+                    <div>{ele.worker_name}</div>
+                    <div>
+                      {/* <Form autoComplete="off"> */}
+                      <Grid container>
+                        <Grid xs={12} item>
+                          <Box marginTop="10px">
+                            <input
+                              type="text"
+                              placeholder="Give Rating message"
+                              onChange={(e) => setMessageText(e.target.value)}
+                              className="inputField"
+                            />
+                          </Box>
+
+                          <Box marginTop="10px">
+                            <input
+                              type="number"
+                              placeholder="Give Rating"
+                              onChange={(e) =>
+                                setRatingText(parseInt(e.target.value))
+                              }
+                              className="inputField"
+                            />
+                          </Box>
+
+                          <Box>
+                            <Button
+                              type="submit"
+                              className="login_button"
+                              onClick={() => {
+                                submitRating(ele.worker_id);
+                              }}
+                            >
+                              Submit
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      {/* </Form> */}
+                    </div>
+                  </div>
+                </Modal>
+              )}
             </div>
-            <button className="rating-btn">Give Rating</button>
-          </div>
-          <div className="booking-list-wrapper">
-            <div className="booking-list-name">Sarla Jain</div>
-            <div className="booking-list-category">Category: Maid</div>
-            <div className="booking-list-rating">Rating: 4.5/5</div>
-            <div className="booking-list-vacinated">Covid-19: Vaccinated</div>
-            <div className="booking-list-age">Age: 25 yrs</div>
-            <div className="booking-list-distance">
-              Distance: 2.3 km from your location
-            </div>
-          </div>
-          <div className="booking-list-wrapper">
-            <div className="booking-list-name">Pranay Verma</div>
-            <div className="booking-list-category">Category: Electrician</div>
-            <div className="booking-list-rating">Rating: 4.5/5</div>
-            <div className="booking-list-vacinated">Covid-19: Vaccinated</div>
-            <div className="booking-list-age">Age: 29 yrs</div>
-            <div className="booking-list-distance">
-              Distance: 2.5 km from your location
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
